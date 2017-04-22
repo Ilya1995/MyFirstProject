@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check</title>
+    <link href = css/check.css rel = stylesheet>
+</head>
+<body>
+
+<form class="form1">
+    <h1 id="check">Регистрация</h1>
+    <div>Введите логин</div>
+    <input id=login class=inp type="text" name="message"/>
+    <div>
+        Пароль
+    </div>
+    <input id=pass1 class="inp p1" type="password" name="password"/>
+    <div class="p1">
+        Повторите пароль
+    </div>
+    <input id=pass2 class="p1" type="password" name="password"/>
+    <input class=button id=but type="button" name="Вход" value="Подтвердить">
+</form>
+<script>
+    function eqPass (pass1, pass2) {
+        return pass1==pass2;
+    };
+    document.getElementById('but').onclick = function() {
+        if(eqPass(document.getElementById('pass1').value, document.getElementById('pass2').value)){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/publish", true);
+            xhr.send(JSON.stringify({
+                login: document.getElementById("login").value,
+                password: document.getElementById("pass1").value,
+                event: 'check'
+            }));
+        }else {
+            alert("Пароли не совпадают");
+        }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState != 4) return;
+            alert(xhr.responseText);
+            console.log(xhr.responseText);
+            if(xhr.responseText == 'Логин занят') {
+                window.open("check.html", '_self');
+                return false;
+            }
+            window.open("entry.html", '_self');
+        };
+        return false;
+    };
+
+</script>
+</body>
+</html>
