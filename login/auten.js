@@ -10,8 +10,8 @@ exports.entry = function (login, pass) {
     for(var key in mas)
         if(mas[key].login == login)
             if (pass == mas[key].pass)
-                return "Вы вошли";
-    return "Неверный логин или пароль";
+                return true;
+    return false;
 };
 
 exports.reg = function (login, pass) {

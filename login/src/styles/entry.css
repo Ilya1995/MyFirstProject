@@ -1,0 +1,65 @@
+.form2 input{
+    margin-top: 5px;
+}
+.form2 div{
+    padding: 2px;
+}
+.form2{
+    float: left;
+    border: 2px solid #ad9d80;
+    padding: 15px 5px 15px 15px;
+    width: 245px;
+    height: 130px;
+    background-color: beige;
+    border-radius: 4px;
+}
+
+.form1{
+    border: 2px solid #ad9d80;
+    padding: 150px 5px;
+    width: 245px;
+    margin-left:1000px;
+    margin-top:40px;
+    height: 20px;
+    background-color: beige;
+    border-radius: 4px;
+    font-family: 'Times New Roman'; /* Гарнитура текста */
+    font-size: 110%; /* Размер шрифта в процентах */
+}
+.form1 input,
+.form1 div{
+    padding: 3px 5px;
+    position: relative;
+    left: 40px;
+    bottom: 100px;
+}
+
+.inp{
+    width: 70%;
+    margin-bottom: 15px;
+}
+.form1 .button{
+    width: 50%;
+    height: 170%;
+    padding: 5px 20px;
+}
+.forgot{
+    margin-top: 5px;
+}
+
+.forgot:hover {
+    color: silver;
+}
+
+#reg{
+    padding: 6px 8px;
+    margin-top: 20px;
+    width: 60%;
+}
+.welcome{
+    font-family: Monotype Corsiva; /* Гарнитура шрифта */
+    font-size: 50px; /* Размер текста */
+    font-weight: lighter; /* Светлое начертание */
+    text-align: center;
+    color: blue;
+}
