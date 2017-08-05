@@ -1,0 +1,10 @@
+a:focus {
+    background: none;
+}
+.active {
+    font-weight: bold;
+}
+
+.no_display {
+    display: none;
+}
