@@ -2,6 +2,7 @@
 
 //var registration = require('./registration');
 var authentication = require('./authentication');
+require('./console.js');
 
 module.exports.authentication = function (req, res) {
     console.log(req.body);

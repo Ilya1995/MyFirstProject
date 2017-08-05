@@ -2,6 +2,7 @@
 
 var mysql = require('mysql');
 var config = require('../config/mainConfig').config;
+require('./console.js');
 
 module.exports.authentication = function (params, callback) {
     console.log(params);
