@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { NotificationContainer } from 'react-notifications';
 import * as userActions from '../actions/UserActions'
 import * as registrationActions from '../actions/RegistrationActions'
+
 //import 'react-notifications/lib/notifications.css';
 import FormAut from '../containers/FormAut'
 
