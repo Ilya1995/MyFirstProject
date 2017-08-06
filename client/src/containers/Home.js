@@ -6,7 +6,7 @@ import { NotificationManager, NotificationContainer } from 'react-notifications'
 import * as userActions from '../actions/UserActions'
 import * as registrationActions from '../actions/RegistrationActions'
 import 'react-notifications/lib/notifications.css';
-//import FormAut from '../containers/FormAut'
+//mport FormAut from '../containers/FormAut'
 
 class Home extends Component {
     constructor(props) {
