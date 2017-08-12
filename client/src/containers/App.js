@@ -13,13 +13,18 @@ class App extends Component {
         router: PropTypes.object
     };
 
+    componentDidMount() {
+        const { getLoggedUser } = this.props.userActions;
+        getLoggedUser();
+    }
+
     render() {
         const { isAuth, name } = this.props.userInfo;
 
-        // const onLogout = () => {
-        //     const { logout } = this.props.userActions;
-        //     logout();
-        // };
+        const onLogout = () => {
+            const { logout } = this.props.userActions;
+            logout();
+        };
         
         return (
             <div>
@@ -37,8 +42,8 @@ class App extends Component {
                             </ul>
                             {isAuth ?
                                 <ul className='nav nav-right'>
-                                    <li><NavLink className='NavLink '>Привет, {name}</NavLink></li>
-                                    <li></li>
+                                    <li><NavLink className='NavLink'>Привет, {name}</NavLink></li>
+                                    <li onClick={onLogout}><NavLink className='NavLink'>Выход</NavLink></li>
                                 </ul> : ''}
                         </nav>
                     </section>

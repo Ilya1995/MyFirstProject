@@ -1,4 +1,5 @@
 import {
+    LOGOUT_SUCCESS,
     READ_CLIENT_SUCCESS
 } from '../constants/User';
 import 'whatwg-fetch'
@@ -34,66 +35,68 @@ export const authentication = (data) => {
     }
 };
 
-// export const readClient = (data) => {
-//     return (dispatch) => {
-//         console.log(data);
-//         fetch('/api/readClient', {
-//             method: 'post',
-//             credentials: 'same-origin',
-//             headers: {
-//                 'Content-type': 'application/json'
-//             },
-//             body: JSON.stringify(data)
-//         })
-//         .then(response => response.json())
-//         .then(json => {
-//             if (json.result) {
-//                 dispatch(readClientSuccess(json.data.data));
-//                 console.log(json.data);
-//             }else {
-//                 console.log(json.note);
-//             }
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-//     }
-// };
-//
-// export const login = (data, router) => {
-//     return (dispatch) => {
-//         dispatch(loginRequest(data));
-//         fetch('/api/authorization', {
-//             method: 'post',
-//             credentials: 'same-origin',
-//             headers: {
-//                 'Content-type': 'application/json'
-//             },
-//             body: JSON.stringify(data)
-//         })
-//         .then(response => response.json())
-//         .then(json => {
-//             if (json.result) {
-//                 console.log(json.data);
-//                 dispatch(loginSuccess(json.data));
-//                 router.push('/account');
-//                 NotificationManager.success('Авторизация прошла успешно', 'Регистрация', 5000);
-//             } else {
-//                 dispatch(loginFail(json.note));
-//                 router.push('/');
-//                 NotificationManager.error('Не удалось авторизоваться', 'Регистрация', 5000);
-//             }
-//         })
-//         .catch(err => {
-//             dispatch(loginFail(err));
-//             NotificationManager.error('Не удалось авторизоваться', 'Регистрация', 5000);
-//         })
-//     }
-// };
+
+/**
+ * Выход из профиля
+ */
+export const logout = () => {
+    return (dispatch) => {
+        fetch('/api/logout', {
+            method: 'post',
+            credentials: 'same-origin',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+             if (json.result) {
+                 console.log('Пользователь разлогинился');
+                 dispatch(logoutSuccess());
+             } else {
+                 console.log('Разлогиниться не получилось');
+             }
+        })
+        .catch(err => {
+            console.log(err + '. Разлогиниться не получилось');
+        })
+    };
+};
+
+/**
+ * Авторизация после перезагрузки страницы
+ */
+export const getLoggedUser = () => {
+    return (dispatch) => {
+        fetch('/api/getLoggedUser', {
+            method: 'post',
+            credentials: 'same-origin',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            if (json.result) {
+                dispatch(readClientSuccess(json.data));
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+};
 
 const readClientSuccess = (data) => {
     return {
         type: READ_CLIENT_SUCCESS,
         name: data
+    }
+};
+
+const logoutSuccess = () => {
+    return {
+        type: LOGOUT_SUCCESS
     }
 };

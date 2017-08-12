@@ -49,8 +49,12 @@ class Address extends Component {
             if (!data.captcha) {
                 return NotificationManager.info('Заполните капчу', 'Регистрация', 5000);
             }
-            const { registration } = this.props.registrationActions;
-            registration(data);
+            const { registration, sendEmail } = this.props.registrationActions;
+            registration(data, function (err, note) {
+                if (data.email && note) {
+                    sendEmail({email: data.email, login: data.login, password: data.pass1});
+                }
+            });
             console.log(data);
             closeModal();
         };
@@ -77,7 +81,6 @@ class Address extends Component {
                         </footer>
                         <a className='btn-reg btn-blue btn-l btn-indent' value='Регистрация' type='submit' onClick={registration}>Регистрация</a>
                         <a className='btn-blue btn-r btn-indent' value='Войти' type='submit' onClick={authentication}>Войти</a>
-
 
                     </fieldset>
                 </form>

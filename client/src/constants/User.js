@@ -1,4 +1,6 @@
 export const READ_CLIENT_SUCCESS = 'READ_CLIENT_SUCCESS';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+
 
 
 

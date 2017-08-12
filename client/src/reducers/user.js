@@ -1,5 +1,6 @@
 import {
-    READ_CLIENT_SUCCESS
+    READ_CLIENT_SUCCESS,
+    LOGOUT_SUCCESS
 } from '../constants/User';
 
 const initialState = {
@@ -12,6 +13,9 @@ export default function user(state = initialState, action) {
 
         case READ_CLIENT_SUCCESS:
             return { ...state, name: action.name, isAuth: true };
+
+        case LOGOUT_SUCCESS:
+            return { ...state, name: '', isAuth: false};
 
         default:
             return state
