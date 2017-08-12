@@ -19,6 +19,7 @@ app.use(function (req, res, next) {
 }); 
 
 app.post(apiPrefix + '/authentication', handler.authentication);
+app.post(apiPrefix + '/registration', handler.registration);
 
 http.createServer(app).listen(app.get('port'));
 console.info('Сервер запущен на порту ' + app.get('port'));

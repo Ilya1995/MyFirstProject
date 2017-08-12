@@ -1,12 +1,12 @@
-// import {
-//     READ_CLIENT_SUCCESS
-// } from '../constants/User';
+import {
+    READ_CLIENT_SUCCESS
+} from '../constants/User';
 import 'whatwg-fetch'
 import { NotificationManager } from 'react-notifications';
 
 export const authentication = (data) => {
     console.log(data);
-    return () => {//dispatch
+    return (dispatch) => {
         console.log(data);
         fetch('/api/authentication', {
             method: 'post',
@@ -20,10 +20,10 @@ export const authentication = (data) => {
         .then(json => {
             console.log(json);
             if (json.result) {
-                //dispatch(readClientSuccess(json.data.data));
+                dispatch(readClientSuccess(json.data));
                 NotificationManager.info('Авторизация прошла успешно', 'Авторизация', 5000);
                 console.log(json.data);
-            }else {
+            } else {
                 NotificationManager.error('Неверный логин или пароль', 'Авторизация', 5000);
                 console.log(json.note);
             }
@@ -90,10 +90,10 @@ export const authentication = (data) => {
 //         })
 //     }
 // };
-//
-// const readClientSuccess = (data) => {
-//     return {
-//         type: READ_CLIENT_SUCCESS,
-//         client: data
-//     }
-// };
+
+const readClientSuccess = (data) => {
+    return {
+        type: READ_CLIENT_SUCCESS,
+        name: data
+    }
+};

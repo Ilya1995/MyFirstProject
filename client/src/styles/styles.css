@@ -1,16 +1,196 @@
 @charset "utf-8";
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
 
-
-.navbar-right {
-    margin: 0 0 0 0;
-}
-/*********************форма авторизации********************/
-
 body {
     background: url(./images/bg.png) repeat;
 }
-[class*="fontawesome-"]:before {
+
+/*.navbar-right {#1dabb8*/
+    /*margin: 0 0 0 0;*/
+/*}*/
+.btn-medium {
+    width: 40%;
+}
+.btn-indent {
+    margin-top: 10px;
+    padding: 12px 20px;
+}
+.btn-l {
+    float: left;
+}
+.btn-r {
+    float: right;
+}
+.re-captcha {
+    margin: 20px 1px 1px 70px;
+}
+
+.text-label {
+    padding-top: 10px;
+}
+
+
+
+/****************************Голубая кнопка********************************/
+
+.footer {
+    padding-top: 120px;
+}
+.footer .btn-blue,
+#login-form .btn-blue {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration:none;
+    color:#fff;
+    font-size: 14px;
+    position:relative;
+    text-align: center;
+    border-left:solid 1px #198d98;
+    /*margin-left:35px;*/
+    background: #1dabb8;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #156785, 0px 10px 5px #999;
+    -moz-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #156785, 0px 10px 5px #999;
+    -o-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #156785, 0px 10px 5px #999;
+    box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #156785, 0px 10px 5px #999;
+}
+
+.footer .btn-blue:hover,
+#login-form .btn-blue:hover {
+    background: #198d98;
+}
+
+.footer .btn-blue:active,
+#login-form .btn-blue:active {
+    top:3px;
+    background: #198d98;
+    -webkit-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
+    -moz-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
+    -o-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
+    box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
+}
+
+.footer .btn-blue:active::before,
+#login-form .btn-blue:active::before {
+    top:-3px;
+    -webkit-box-shadow:inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #032b3a, 1px 1px 0px 0px #044a64, 2px 2px 0px 0px #044a64, 2px 5px 0px 0px #044a64, 6px 4px 2px #0b698b, 0px 10px 5px #999 ;
+    -moz-box-shadow:inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #032b3a, 1px 1px 0px 0px #044a64, 2px 2px 0px 0px #044a64, 2px 5px 0px 0px #044a64, 6px 4px 2px #0b698b, 0px 10px 5px #999 ;
+    -o-box-shadow:inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #032b3a, 1px 1px 0px 0px #044a64, 2px 2px 0px 0px #044a64, 2px 5px 0px 0px #044a64, 6px 4px 2px #0b698b, 0px 10px 5px #999 ;
+    box-shadow:inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #032b3a, 1px 1px 0px 0px #044a64, 2px 2px 0px 0px #044a64, 2px 5px 0px 0px #044a64, 6px 4px 2px #0b698b, 0px 10px 5px #999 ;
+}
+
+/**********************Горизонтальное меню**************************/
+#container .nav {
+    height: 48px;
+    display: inline-block;
+    float: left;
+}
+#container .nav-right {
+    float: right;
+}
+#container .NavLink { cursor: pointer; }
+#container .NavLink {
+    background-color: #363b41;
+}
+#container .nav > li, .nav:active > .active {
+    float: left;
+    position: relative;
+    margin: 0 0 4px;
+    height: 44px;
+    color: #ccc;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.9);
+    border-bottom-color: #1f2326;
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px #262a2e, 0 3px #1f2326, 0 4px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px #262a2e, 0 3px #1f2326, 0 4px 3px rgba(0, 0, 0, 0.2);
+}
+#container .nav > li:hover{
+    color: #1dabb8;
+    text-shadow: 0 1px black, 0 0 20px rgba(255, 255, 255, 0.5);
+}
+#container .nav > li.active,
+#container .nav > .active:active,
+#container .nav > li:active {
+    z-index: 2;
+    margin: 4px 0 0;
+    height: 43px;
+    color: #aaa;
+    text-shadow: 0 1px black;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: #212425;
+    border-width: 1px 0;
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), inset 0 -1px 1px rgba(0, 0, 0, 0.15), 1px 0 rgba(0, 0, 0, 0.05), -1px 0 rgba(0, 0, 0, 0.05), 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), inset 0 -1px 1px rgba(0, 0, 0, 0.15), 1px 0 rgba(0, 0, 0, 0.05), -1px 0 rgba(0, 0, 0, 0.05), 0 1px rgba(255, 255, 255, 0.05);
+}
+#container .nav > li:active {
+    z-index: 3;
+}
+#container .nav > li:first-child {
+    border-left-width: 1px !important;
+    border-left-color: #212425;
+    border-radius: 5px 0 0 5px;
+}
+#container .nav > li:last-child {
+    border-right-width: 1px !important;
+    border-right-color: #212425;
+    border-radius: 0 5px 5px 0;
+}
+#container .nav > li + li, .nav:active > .active + li, .nav:active > li + .active {
+    border-left-width: 0;
+}
+#container .nav > .active + li,
+#container .nav > .active:active + li,
+#container .nav > li:active + li,
+#container .nav > li:active + .active {
+    border-left-width: 1px;
+}
+#container .nav > li > a {
+    display: block;
+    line-height: 44px;
+    padding: 0 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: inherit;
+    text-decoration: none;
+    outline: 0;
+}
+#container .nav .nav-icon {
+    padding: 0 15px;
+}
+
+#container [class*="icon-"] {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: text-top;
+    background-image: url("./images/icons.png");
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font: 0/0 serif;
+    text-shadow: none;
+    color: transparent;
+}
+
+#container .icon-home {
+    background-position: 0 0;
+}
+
+
+
+/*********************форма авторизации********************/
+
+#login-form [class*="fontawesome-"]:before {
     font-family: 'FontAwesome', sans-serif;
 }
 
@@ -31,7 +211,7 @@ body {
 }
 
 #login-form {
-    margin: 3% 75% auto;
+    margin: 0 76% auto;
     width: 300px;
     box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
 }
@@ -42,8 +222,6 @@ body {
     color: #999;
     text-decoration: none;
 }
-
-#login-form a:hover { color: #1dabb8; }
 
 #login-form fieldset {
     border: none;
@@ -117,25 +295,25 @@ body {
     border-radius: 0px 0px 3px 3px;
 }
 
-#login-form input[type="submit"] {
-    background: #1dabb8;
-    border-radius: 5px 5px 5px 5px;
-    color: #fff;
-    float: right;
-    font-weight: bold;
-    margin-top: 10px;
-    padding: 12px 20px;
-}
+/*#login-form input[type="submit"] {*/
+    /*background: #1dabb8;*/
+    /*border-radius: 5px 5px 5px 5px;*/
+    /*color: #fff;*/
+    /*float: right;*/
+    /*font-weight: bold;*/
+    /*margin-top: 10px;*/
+    /*padding: 12px 20px;*/
+/*}*/
 
-#login-form input[type="submit"] + .btn-reg {
-    background: #1dabb8;
-    border-radius: 5px 5px 5px 5px;
-    color: #fff;
-    float: left;
-    font-weight: bold;
-    margin-top: 10px;
-    padding: 12px 20px;
-}
+/*#login-form input[type="submit"] + .btn-reg {*/
+    /*background: #1dabb8;*/
+    /*border-radius: 5px 5px 5px 5px;*/
+    /*color: #fff;*/
+    /*float: left;*/
+    /*font-weight: bold;*/
+    /*margin-top: 10px;*/
+    /*padding: 12px 20px;*/
+/*}*/
 
 
 
@@ -165,12 +343,10 @@ body {
     top:0;
     left:0;
     width:100%;
-    font-family: calibri;
-    font-size: 13px;
     box-shadow: 1px 0px 2px rgba(0,0,0,0.2);
     -webkit-animation: slideOut 0.5s ease-in-out 0.3s backwards;
 }
-@-webkit-keyframes slideOut{
+#login-form @-webkit-keyframes slideOut{
     0%{top:-30px; opacity: 0;}
     100%{top:0px; opacity: 1;}
 }

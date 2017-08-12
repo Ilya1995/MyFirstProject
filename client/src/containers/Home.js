@@ -22,10 +22,12 @@ class Home extends Component {
     };
 
     render() {
+        const { isAuth } = this.props.userInfo;
 
         return (
             <div>
-                <FormAut />
+
+                {isAuth ? '' : <FormAut />}
                 <NotificationContainer/>
             </div>
         );

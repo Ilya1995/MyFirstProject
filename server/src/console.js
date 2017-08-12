@@ -11,7 +11,7 @@ var ConsoleModule = function(){
 ConsoleModule.prototype.setupConsole = function() {
     function intercept(method){
         if (!(config.logLevel<=logLevels.indexOf(method))) {
-            console[method] = function(){
+            console[method] = function() {
                 var cache=[];
                 var caller='';
                 if ( config.env==='dev' ) {caller = (new Error).stack.split('\n')[2].replace(/\ \ \ \ at\ .*\ /, '');}

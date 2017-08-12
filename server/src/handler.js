@@ -1,6 +1,6 @@
 "use strict";
 
-//var registration = require('./registration');
+var registration = require('./registration');
 var authentication = require('./authentication');
 require('./console.js');
 
@@ -18,5 +18,18 @@ module.exports.authentication = function (req, res) {
         }
 
         res.send({result: true, data: data});
+    });
+};
+
+module.exports.registration = function (req, res) {
+    console.log(req.body);
+    registration.regClient(req.body, function (err, note) {
+        console.log(err);
+        console.log(note);
+        if (err) {
+            res.send({result: false, note: err});
+        } else {
+            res.send({result: true, note: note});
+        }
     });
 };

@@ -4,10 +4,15 @@ import { bindActionCreators } from 'redux';
 import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import * as userActions from '../actions/UserActions'
+import * as registrationActions from '../actions/RegistrationActions'
+import ModalRegistration from '../components/ModalRegistration'
 
 class Address extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isOpenModalRegistration: false
+        }
     }
 
     static contextTypes = {
@@ -27,6 +32,33 @@ class Address extends Component {
             authentication({login: this.refs.login.value, password: this.refs.password.value});
         };
 
+        const registration = () => {
+            this.setState({isOpenModalRegistration: true});
+        };
+
+        const okModal = (data) => {
+            if (!data.login) {
+                return NotificationManager.info('Не заполнено поле login', 'Регистрация', 5000);
+            }
+            if (data.pass1 !== data.pass2) {
+                return NotificationManager.info('Пароли не совпадают', 'Регистрация', 5000);
+            }
+            if (!data.name) {
+                return NotificationManager.info('Заполните имя с именем', 'Регистрация', 5000);
+            }
+            if (!data.captcha) {
+                return NotificationManager.info('Заполните капчу', 'Регистрация', 5000);
+            }
+            const { registration } = this.props.registrationActions;
+            registration(data);
+            console.log(data);
+            closeModal();
+        };
+
+        const closeModal = () => {
+            this.setState({isOpenModalRegistration: false});
+        };
+
         return (
             <div className='form-group'>
                 <form id='login-form'>
@@ -43,11 +75,15 @@ class Address extends Component {
                                 <a href='#'>Забыли пароль?</a>
                             </p>
                         </footer>
-                        <input value='Войти' type='submit' onClick={authentication}/>
-                        <input className='btn-reg' value='Регистрация' type='submit'/>
+                        <a className='btn-reg btn-blue btn-l btn-indent' value='Регистрация' type='submit' onClick={registration}>Регистрация</a>
+                        <a className='btn-blue btn-r btn-indent' value='Войти' type='submit' onClick={authentication}>Войти</a>
+
 
                     </fieldset>
                 </form>
+                <ModalRegistration isOpenModal={this.state.isOpenModalRegistration}
+                                   okModal={okModal}
+                                   closeModal={closeModal}/>
             </div>
         )
     }
@@ -61,7 +97,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        registrationActions: bindActionCreators(registrationActions, dispatch)
     }
 };
 
