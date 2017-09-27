@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-//import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { NotificationContainer } from 'react-notifications';
 import * as userActions from '../actions/UserActions'
 import * as registrationActions from '../actions/RegistrationActions'
-
-//import 'react-notifications/lib/notifications.css';
 import FormAut from '../containers/FormAut'
+// import DeliveryOfMessages from '../containers/DeliveryOfMessages'
+
+//import { Link } from 'react-router'
+//import 'react-notifications/lib/notifications.css';
+
 
 class Home extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class Home extends Component {
             <div>
 
                 {isAuth ? '' : <FormAut />}
+                {/*<DeliveryOfMessages />*/}
                 <NotificationContainer/>
             </div>
         );

@@ -21,7 +21,7 @@ const ModalRegistration = ({isOpenModal, okModal, closeModal}) => {
             right                      : '0',
             bottom                     : '0',
             width                      : '500px',
-            height                     : '630px',
+            height                     : '530px',
             border                     : '1px solid #ccc',
             background                 : '#fff',
             overflow                   : 'auto',
@@ -29,7 +29,7 @@ const ModalRegistration = ({isOpenModal, okModal, closeModal}) => {
             borderRadius               : '4px',
             outline                    : 'none',
             padding                    : '20px',
-            margin: 'auto'
+            margin                     : 'auto'
         }
     };
 
@@ -83,7 +83,7 @@ const ModalRegistration = ({isOpenModal, okModal, closeModal}) => {
 
                     <Captcha setVerifyRecaptcha ={(res) => captcha=res}/>
                 </div>
-                <div className='footer'>
+                <div className='footer reg-form'>
                     <a className='btn-l btn-blue btn-indent btn-medium' onClick={closeModal}>
                         Отмена
                     </a>
@@ -97,6 +97,7 @@ const ModalRegistration = ({isOpenModal, okModal, closeModal}) => {
                         Подтвердить
                     </a>
                 </div>
+                <br/><br/><br/><br/>
             </div>
 
         </Modal>

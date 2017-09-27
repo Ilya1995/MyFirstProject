@@ -7,7 +7,7 @@ import * as userActions from '../actions/UserActions'
 import * as registrationActions from '../actions/RegistrationActions'
 import ModalRegistration from '../components/ModalRegistration'
 
-class Address extends Component {
+class FormAut extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -105,4 +105,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Address)
+export default connect(mapStateToProps, mapDispatchToProps)(FormAut)

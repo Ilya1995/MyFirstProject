@@ -66,7 +66,7 @@ module.exports.getLoggedUser = function (req, res) {
 
             if (!session.login || !session.password) {
                 console.log('Пользователь не авторизован');
-                return callback();
+                return callback('Пользователь не авторизован');
             }
             console.log('Информация пользователя: ');
             console.log(session);
