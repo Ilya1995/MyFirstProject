@@ -4,20 +4,30 @@ exports.up = function(db, callback) {
     async.series([
         function (callback) {
             let sql = "INSERT INTO type_messages (name) values('email')";
-            db.runSql(sql, callback);
+            db.runSql(sql, function (err) {
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null);
+            });
         },
         function (callback) {
             let sql = "INSERT INTO type_messages (name) values('sms')";
-            db.runSql(sql, callback);
+            db.runSql(sql, function (err) {
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null);
+            });
         }
     ], function (err) {
         if (err) {
             return console.error(err);
         }
-        callback();
+        return callback();
     });
 };
 
 exports.down = function(db, callback) {
-    callback();
+    return callback();
 };

@@ -3,8 +3,20 @@
 var registration = require('./registration');
 var authentication = require('./authentication');
 var clients = require('./clients');
+var messages = require('./messages');
 var async = require('async');
 require('./console.js');
+
+module.exports.getMessages = function (req, res) {
+    messages.getMessages(function (err, data) {
+        console.log(err);
+        console.log(data);
+        if (err) {
+            return res.send({result: false, note: err});
+        }
+        res.send({result: true, data: data});
+    });
+};
 
 module.exports.authentication = function (req, res) {
     console.log(req.body);

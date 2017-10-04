@@ -19,7 +19,7 @@ const ModalNewMess = ({isOpenModal, sendOrReport, okModal, closeModal}) => {
             left                       : '0',
             right                      : '0',
             bottom                     : '0',
-            width                      : '450px',
+            width                      : '460px',
             height                     : '480px',
             borderWidth                : '2px',
             borderColor                : 'black',

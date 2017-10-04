@@ -19,32 +19,31 @@ class Reports extends Component {
     }
 
     render() {
-        //const { client } = this.props.userInfo;
-        //console.log(client);
 
-        const RowMessages = ({mess}) => {
-            console.log(mess);
+        const RowMessages = ({num, mess}) => {
             return (
                 <tr>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
+                    <td>{num+1}</td>
+                    <td>{mess.dispatch_time}</td>
+                    <td>{mess.to}</td>
+                    <td>{mess.status ? 'Отправлено' : 'Ошибка'}</td>
                 </tr>
             )
         };
 
         const Messages = ({info}) => {
-
+            console.log(info);
             return (
-                <div>
+                <div className='scrol-table'>
                     <table className='table table-bordered'>
                         <tbody>
                         <tr>
+                            <td className='bg-info'>№</td>
                             <td className='bg-info'>Дата отправки</td>
                             <td className='bg-info'>Получатель</td>
                             <td className='bg-info'>Статус</td>
                         </tr>
-                        {info.map((mess, i) => <RowMessages key={i} mess={mess}/>)}
+                        {info.map((mess, i) => <RowMessages num={i} mess={mess} />)}
                         </tbody>
                     </table>
                 </div>
@@ -54,10 +53,19 @@ class Reports extends Component {
         return (
             <div className='form-group'>
                 <form id='sendMes-form'>
-                    <h3>Доставленные сообщений</h3>
-                    <h4 className='text-center page-header'> </h4>
-                    <Messages info={[1,2,5,32,342]}/>
 
+
+                    {this.props.messages ?
+                        <div>
+                            <h3>Доставленные сообщений</h3>
+                            <h4 className='text-center page-header'> </h4>
+                            <Messages info={this.props.messages}/>
+                        </div>
+                        :
+                        <div>
+                            <h3>Нет доставленных сообщений</h3>
+                        </div>
+                    }
                 </form>
             </div>
         )
@@ -66,7 +74,8 @@ class Reports extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userInfo: state.user
+        userInfo: state.user,
+        messages: state.messages.messages
     }
 };
 

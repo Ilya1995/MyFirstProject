@@ -1,7 +1,7 @@
 var async = require('async');
 
 exports.up = function(db, callback) {
-    async.series([
+    async.waterfall([
         function (callback) {
             let sql = "CREATE TABLE `messeges` ( " +
                 "`id` int(11) NOT NULL AUTO_INCREMENT, " +
@@ -19,16 +19,30 @@ exports.up = function(db, callback) {
                 "CONSTRAINT `fk_messeges_type_messages` FOREIGN KEY (`type_messages_id`) " +
                 "REFERENCES `type_messages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION " +
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-            db.runSql(sql, callback);
+            db.runSql(sql, function (err) {
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null);
+            });
+        },
+        function (callback) {
+            var sql = 'ALTER TABLE `messeges` ADD COLUMN `status` BOOL NOT NULL';
+            db.runSql(sql, function (err) {
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null);
+            });
         }
     ], function (err) {
         if (err) {
             return console.error(err);
         }
-        callback();
+        return callback();
     });
 };
 
 exports.down = function(db, callback) {
-    callback();
+    return callback();
 };

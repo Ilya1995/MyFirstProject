@@ -30,6 +30,12 @@ body {
 .text-label {
     padding-top: 10px;
 }
+.scrol-table{
+    height:230px;
+    width:400px;
+    overflow: scroll;
+}
+
 /*****************************Выпадающее меню*******************************/
 
 /* main menu styles */
@@ -121,7 +127,7 @@ body {
     width: 400px;
     height: 380px;
 }
-#sendMes-form > h3 {
+#sendMes-form h3 {
     text-align: center;
     border-color: #363b41 white; /* Цвет границы */
     border-width: 2px; /* Толщина границы */

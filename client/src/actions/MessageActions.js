@@ -1,5 +1,5 @@
 import {
-
+    GET_MESSAGES_SUCCESS
 } from '../constants/Message';
 import 'whatwg-fetch'
 //import { NotificationManager } from 'react-notifications';
@@ -35,25 +35,29 @@ export const sendMess = () => {
  * Получить сообщения для отчёта
  */
 export const getMessages = () => {
-    return () => {
+    return (dispatch) => {
         console.debug('Получить сообщения');
-        // fetch('/api/logout', {
-        //     method: 'post',
-        //     credentials: 'same-origin',
-        //     headers: {
-        //         'Content-type': 'application/json'
-        //     }
-        // })
-        // .then(response => response.json())
-        // .then(json => {
-        //     if (json.result) {
-        //         console.log('Пользователь разлогинился');
-        //     } else {
-        //         console.log('Разлогиниться не получилось');
-        //     }
-        // })
-        // .catch(err => {
-        //     console.log(err + '. Разлогиниться не получилось');
-        // })
+        fetch('/api/getMessages', {
+            method: 'get'
+        })
+        .then(response => response.json())
+        .then(json => {
+            if (json.result) {
+                console.debug(json.data);
+                dispatch(getMessagesSuccess(json.data));
+            } else {
+                console.error('Не удалось получить отчёты по сообщениям');
+            }
+        })
+        .catch(err => {
+            console.error(err + '. Не удалось получить отчёты по сообщениям');
+        })
     };
+};
+
+const getMessagesSuccess = (data) => {
+    return {
+        type: GET_MESSAGES_SUCCESS,
+        messages: data
+    }
 };

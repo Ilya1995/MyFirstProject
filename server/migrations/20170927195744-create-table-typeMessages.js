@@ -4,9 +4,14 @@ exports.up = function(db, callback) {
         "`name` VARCHAR(64) NOT NULL COLLATE utf8_unicode_ci, " +
         "PRIMARY KEY (`id`)) " +
         "ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-    db.runSql(sql, callback);
+    db.runSql(sql, function (err) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null);
+    });
 };
 
 exports.down = function(db, callback) {
-    callback();
+    return callback();
 };
