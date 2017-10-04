@@ -5,32 +5,6 @@ import {
 import 'whatwg-fetch'
 import { NotificationManager } from 'react-notifications';
 
-/**
- * Доставка сообщения
- */
-export const sendMess = () => {
-    return () => {
-        console.debug('Сообщение доставлено');
-        // fetch('/api/logout', {
-        //     method: 'post',
-        //     credentials: 'same-origin',
-        //     headers: {
-        //         'Content-type': 'application/json'
-        //     }
-        // })
-        // .then(response => response.json())
-        // .then(json => {
-        //     if (json.result) {
-        //         console.log('Пользователь разлогинился');
-        //     } else {
-        //         console.log('Разлогиниться не получилось');
-        //     }
-        // })
-        // .catch(err => {
-        //     console.log(err + '. Разлогиниться не получилось');
-        // })
-    };
-};
 
 /**
  * Аутентификация

@@ -65,10 +65,7 @@ const ModalNewMess = ({isOpenModal, sendOrReport, okModal, closeModal}) => {
                         <Reports />
                         <div className='footer'>
                             <a className='btn-l btn-blue btn-small' onClick={closeModal}>
-                                Отмена
-                            </a>
-                            <a className='btn-r btn-blue btn-small' onClick={() => okModal()}>
-                                Отправить
+                                Назад
                             </a>
                         </div>
                     </div>}

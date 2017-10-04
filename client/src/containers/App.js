@@ -4,6 +4,7 @@ import { NotificationManager } from 'react-notifications';
 import { bindActionCreators } from 'redux'
 import NavLink from '../components/NavLink'
 import * as userActions from '../actions/UserActions'
+import * as messageActions from '../actions/MessageActions'
 import ModalNewMess from '../components/ModalNewMess'
 
 class App extends Component {
@@ -11,7 +12,7 @@ class App extends Component {
         super(props);
         this.state = {
             isOpenModalNewMess: false,
-            sendOrReport: null
+            sendOrReport: ''
         }
     }
     
@@ -40,7 +41,7 @@ class App extends Component {
             if ((!data.emailMess || !data.subjectMess) && !data.phoneMess) {
                 return NotificationManager.info('Заполните все поля', 'Доставка сообщения', 5000);
             }
-            const { sendMess } = this.props.userActions;
+            const { sendMess } = this.props.messageActions;
             sendMess(data);
             closeModal();
         };
@@ -107,7 +108,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        messageActions: bindActionCreators(messageActions, dispatch)
     }
 };
 
