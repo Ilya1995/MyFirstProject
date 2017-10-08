@@ -33,6 +33,11 @@ class App extends Component {
             logout();
         };
 
+        const aq = () => {
+            const { sendMessage } = this.props.messageActions;
+            sendMessage({textMess: '995', phoneMess: '89102216825'});
+        };
+
         const okModal = (data) => {
             console.log(data);
             if (!data.textMess) {
@@ -41,8 +46,8 @@ class App extends Component {
             if ((!data.emailMess || !data.subjectMess) && !data.phoneMess) {
                 return NotificationManager.info('Заполните все поля', 'Доставка сообщения', 5000);
             }
-            const { sendMess } = this.props.messageActions;
-            sendMess(data);
+            const { sendMessage } = this.props.messageActions;
+            sendMessage(data);
             closeModal();
         };
 
@@ -89,6 +94,7 @@ class App extends Component {
                                 </ul> : ''}
                         </nav>
                     </section>
+                    <button onClick={aq}> PREEEESSS</button>
                 </div>
                 <ModalNewMess isOpenModal={this.state.isOpenModalNewMess}
                               sendOrReport={this.state.sendOrReport}

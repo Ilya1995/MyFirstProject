@@ -47,13 +47,10 @@ class DeliveryOfMessages extends Component {
                             :
                             <div>
                                 <br/>
-                                <h5>Введите номер телефона</h5>
+                                <h5>Введите номер телефона, пример: (910) 221-6825</h5>
                                 <p> </p>
-                                <MaskedInput mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                                             id='phoneMess'
-                                             className='shadow'
-                                             name='phone'
-                                             ref='phone' />
+                                <input id='phoneMess' className='shadow' maxLength='11'
+                                       name='phone' ref='phone' />
                             </div>
                         }
                     </div>

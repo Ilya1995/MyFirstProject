@@ -7,27 +7,29 @@ import 'whatwg-fetch'
 /**
  * Доставка сообщения
  */
-export const sendMess = () => {
+export const sendMessage = (data) => {
     return () => {
-        console.debug('Сообщение доставлено');
-        // fetch('/api/logout', {
-        //     method: 'post',
-        //     credentials: 'same-origin',
-        //     headers: {
-        //         'Content-type': 'application/json'
-        //     }
-        // })
-        // .then(response => response.json())
-        // .then(json => {
-        //     if (json.result) {
-        //         console.log('Пользователь разлогинился');
-        //     } else {
-        //         console.log('Разлогиниться не получилось');
-        //     }
-        // })
-        // .catch(err => {
-        //     console.log(err + '. Разлогиниться не получилось');
-        // })
+        console.debug('Попытка отправить сообщение');
+        fetch('/api/sendMessage', {
+            method: 'post',
+            credentials: 'same-origin',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            if (json.result) {
+                console.log('Сообщение отправлено');
+            } else {
+                console.log('Не удалось отправить сообщение');
+            }
+        })
+        .catch(err => {
+            console.log(err + '. Не удалось отправить сообщение');
+        })
     };
 };
 
