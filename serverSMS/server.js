@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var app = express();
 var config = require('./config/mainConfig').config;
-var handler = require('./src/handler');
+var messages = require('./src/messages');
 var apiPrefix = '/api';
 
 app.set('port', process.env.PORT || config.PORT);
@@ -16,15 +16,9 @@ app.use(function (req, res, next) {
     res.set("Access-Control-Allow-Origin", "*");
     res.set("Access-Control-Allow-Headers", "Content-Type");
     next();
-}); 
+});
 
-app.post(apiPrefix + '/authentication', handler.authentication);
-app.post(apiPrefix + '/registration', handler.registration);
-app.post(apiPrefix + '/sendEmail', handler.sendEmail);
-app.post(apiPrefix + '/logout', handler.logout);
-app.post(apiPrefix + '/getLoggedUser', handler.getLoggedUser);
-app.get(apiPrefix  + '/getMessages', handler.getMessages);
-app.post(apiPrefix + '/sendMessage', handler.sendMessage);
+app.post(apiPrefix + '/sendMessage', messages.sendMessage);
 
 http.createServer(app).listen(app.get('port'));
-console.info('Сервер запущен на порту ' + app.get('port'));
+console.info('Сервер СМС запущен на порту ' + app.get('port'));

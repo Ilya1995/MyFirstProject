@@ -6,6 +6,21 @@ var clients = require('./clients');
 var messages = require('./messages');
 var async = require('async');
 require('./console.js');
+var endOfInterval = 3; // количесво попыток отправки сообщения вслучае ошибки
+
+module.exports.sendMessage = function (req, res) {
+    intervalDispatch(req.body, function (err, data) {
+        if (err) {
+            return res.send({result: false, note: err});
+        }
+        messages.writeToTheDatabase(req.body, data, function (err) {
+            if (err) {
+                return res.send({result: false, note: 'Ошибка при записи отчёта по доставке сообщения в БД'});
+            }
+            return res.send(data);
+        });
+    });
+};
 
 module.exports.getMessages = function (req, res) {
     messages.getMessages(function (err, data) {
@@ -106,3 +121,22 @@ module.exports.getLoggedUser = function (req, res) {
         }
     });
 };
+
+function intervalDispatch(data, callback) {
+    var i = 0, interval = setInterval(() => {
+        messages.sendMessage(data, function (err, data) {
+            if (err || !data.result) {
+                console.error(err || data.note);
+            } else {
+                clearInterval(interval);
+                return callback(null, {result: true, note: data.note});
+            }
+
+            i++;
+            if (i === endOfInterval) {
+                clearInterval(interval);
+                return callback(null, {result: false, note: 'Произошла ошибка при отправке'});
+            }
+        });
+    }, 3000);
+}
