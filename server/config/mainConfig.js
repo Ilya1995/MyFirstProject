@@ -24,7 +24,7 @@ var config = {
     },
     MODULE_EMAIL: {
         HOST: 'http://localhost',
-        PORT: 3552
+        PORT: 3600
     },
     logLevel: 4 //one of log levels error(0)-warning-log-info-debug-trace(5)
 };
