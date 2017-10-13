@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "user": "root",
+    "database": "myDatabase",
+    "password": "7991",
+    "insecureAuth": true,
+    "multipleStatements": true
+  },
+  "prod": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "user": "root",
+    "database": "myDatabase",
+    "password": "7991",
+    "insecureAuth": true,
+    "multipleStatements": true
+  }
+}

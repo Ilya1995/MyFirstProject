@@ -66,7 +66,8 @@ module.exports.sendMessage = function (params, callback) {
     console.log(config.MODULE_SMS.HOST + ':' + config.MODULE_SMS.PORT + '/api/sendMessage');
     var reqParams = {
         method: 'POST',
-        url: config.MODULE_SMS.HOST + ':' + config.MODULE_SMS.PORT + '/api/sendMessage',
+        url: params.phoneMess ? config.MODULE_SMS.HOST + ':' + config.MODULE_SMS.PORT + '/api/sendMessage'
+                              : config.MODULE_EMAIL.HOST + ':' + config.MODULE_EMAIL.PORT + '/api/sendMessage',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -79,9 +80,9 @@ module.exports.sendMessage = function (params, callback) {
         try {
             body = JSON.parse(body);
             console.log(body);
-            return callback(null, body);
         } catch (e) {
             return callback('Ошибка при парсинге ответа');
         }
+        return callback(null, body);
     });
 };

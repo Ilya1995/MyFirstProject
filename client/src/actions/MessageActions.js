@@ -2,7 +2,7 @@ import {
     GET_MESSAGES_SUCCESS
 } from '../constants/Message';
 import 'whatwg-fetch'
-//import { NotificationManager } from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 /**
  * Доставка сообщения
@@ -23,12 +23,15 @@ export const sendMessage = (data) => {
             console.log(json);
             if (json.result) {
                 console.log('Сообщение отправлено');
+                NotificationManager.info(json.note, 'Доставка сообщения', 5000);
             } else {
                 console.log('Не удалось отправить сообщение');
+                NotificationManager.error(json.note, 'Доставка сообщения', 5000);
             }
         })
         .catch(err => {
             console.log(err + '. Не удалось отправить сообщение');
+            NotificationManager.error('Сообщение не отправлено', 'Доставка сообщения', 5000);
         })
     };
 };
