@@ -1,34 +1,25 @@
 "use strict";
 var config = {
-    PORT: 3550,
-    database: {
+    PORT: 3900,
+    databaseAuth: {
         connection: {
             host: '127.0.0.1',          //хост с базами данных
             user: 'root',               //учетка на сервере БД
-            database: 'myDatabase',     //имя БД
+            database: 'authDB',         //имя БД
             password: '7991',           //пароль к БД
             insecureAuth: true,         //разрешение подключения без SSL
             multipleStatements: true    //разрешение передачи нескольких запросов в одном, разделенных знаком ";"
         }
     },
-    sendEmail: {
-        host: 'smtp.mail.ru',
-        port: 465,
-        secure: true,
-        user: 'test11196@mail.ru',
-        pass: '1234567890-qwertyuiop[]'
-    },
-    MODULE_SMS: {
-        HOST: 'http://localhost',
-        PORT: 3700
-    },
-    MODULE_EMAIL: {
-        HOST: 'http://localhost',
-        PORT: 3600
-    },
-    MODULE_AUTH: {
-        HOST: 'http://localhost',
-        PORT: 3900
+    databaseUsers: {
+        connection: {
+            host: '127.0.0.1',          //хост с базами данных
+            user: 'root',               //учетка на сервере БД
+            database: 'usersDB',        //имя БД
+            password: '7991',           //пароль к БД
+            insecureAuth: true,         //разрешение подключения без SSL
+            multipleStatements: true    //разрешение передачи нескольких запросов в одном, разделенных знаком ";"
+        }
     },
     MODULE_USERS: {
         HOST: 'http://localhost',

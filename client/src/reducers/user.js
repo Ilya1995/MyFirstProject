@@ -12,7 +12,7 @@ export default function user(state = initialState, action) {
     switch (action.type) {
 
         case READ_CLIENT_SUCCESS:
-            return { ...state, name: action.name, isAuth: true };
+            return { ...state, name: action.name, balance: action.balance, email: action.email, isAuth: true };
 
         case LOGOUT_SUCCESS:
             return { ...state, name: '', isAuth: false};

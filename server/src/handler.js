@@ -4,7 +4,7 @@ var registration = require('./registration');
 var authentication = require('./authentication');
 var clients = require('./clients');
 var messages = require('./messages');
-var async = require('async');
+// var async = require('async');
 require('./console.js');
 var endOfInterval = 3; // количесво попыток отправки сообщения вслучае ошибки
 
@@ -63,12 +63,18 @@ module.exports.authentication = function (req, res) {
         if (err) {
             return res.send({result: false, note: err});
         }
-        if (req.body.login) {
+        if (req.body.login && data.result) {
             res.cookie('login', req.body.login);
             res.cookie('password', req.body.password);
         }
 
-        res.send({result: true, data: data});
+        if (data.result) {
+            res.send({result: true, data: data.data});
+        } else {
+            res.send({result: false, note: data.note});
+        }
+
+        // res.send({result: true, data: data});
     });
 };
 
@@ -106,40 +112,55 @@ module.exports.logout = function (req, res) {
 };
 
 module.exports.getLoggedUser = function (req, res) {
-    async.waterfall([
-        function (callback) {
-            var session = {
-                login: req.cookies.login || null,
-                password: req.cookies.password || null
-            };
-
-            if (!session.login || !session.password) {
-                console.log('Пользователь не авторизован');
-                return callback('Пользователь не авторизован');
-            }
-            console.log('Информация пользователя: ');
-            console.log(session);
-
-            authentication.authentication(session, function (err, data) {
-                console.log(err);
-                console.log(data);
-                if (err) {
-                    return res.send({result: false, note: err});
-                }
-                if (req.body.login) {
-                    res.cookie('login', req.body.login);
-                    res.cookie('password', req.body.password);
-                }
-
-                res.send({result: true, data: data});
-            });
-        }
-    ], function (err, data) {
-        //console.log(data);
+    console.log(req.cookies);
+    authentication.getLoggedUser(req.cookies, function (err, data) {
+        console.log(err);
+        console.log(data);
         if (err) {
-            res.send({result: false, note: err});
-        } else {
-            res.send({result: true, data: data});
+            return res.send({result: false, note: err});
         }
+        if (data.result) {
+            res.send({result: true, data: data.data});
+        } else {
+            res.send({result: false, note: data.note});
+        }
+
+        //res.send({result: true, data: data});
     });
+    // async.waterfall([
+    //     function (callback) {
+    //         var session = {
+    //             login: req.cookies.login || null,
+    //             password: req.cookies.password || null
+    //         };
+    //
+    //         if (!session.login || !session.password) {
+    //             console.log('Пользователь не авторизован');
+    //             return callback('Пользователь не авторизован');
+    //         }
+    //         console.log('Информация пользователя: ');
+    //         console.log(session);
+    //
+    //         authentication.authentication(session, function (err, data) {
+    //             console.log(err);
+    //             console.log(data);
+    //             if (err) {
+    //                 return res.send({result: false, note: err});
+    //             }
+    //             if (req.body.login) {
+    //                 res.cookie('login', req.body.login);
+    //                 res.cookie('password', req.body.password);
+    //             }
+    //
+    //             res.send({result: true, data: data});
+    //         });
+    //     }
+    // ], function (err, data) {
+    //     //console.log(data);
+    //     if (err) {
+    //         res.send({result: false, note: err});
+    //     } else {
+    //         res.send({result: true, data: data});
+    //     }
+    // });
 };
