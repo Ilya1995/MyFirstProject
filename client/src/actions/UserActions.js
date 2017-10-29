@@ -95,7 +95,9 @@ export const getLoggedUser = () => {
 const readClientSuccess = (data) => {
     return {
         type: READ_CLIENT_SUCCESS,
-        name: data
+        name: data.name,
+        balance: data.balance,
+        email: data.email
     }
 };
 

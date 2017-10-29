@@ -35,6 +35,9 @@ body {
     width:400px;
     overflow: scroll;
 }
+a {
+    cursor: pointer;
+}
 
 /*****************************Выпадающее меню*******************************/
 
@@ -119,8 +122,76 @@ body {
     -webkit-transform:translate(0,161px);
 }
 
+#container .nav #lk {
+    line-height:20px;
+    width:80px;
+    height: 190px;
+}
 
-/*****************************Форма доставки сообщений*******************************/
+/*****************************Форма пополнения баланса*******************************/
+#balance-form {
+    margin: auto;
+    padding: 15px 0 0 0;
+    width: 650px;
+    height: 380px;
+}
+#balance-form h3 {
+    font-size: 30px;
+    margin: 0px auto;
+    width: 350px;
+    text-align: center;
+}
+
+#balance-form .balance-border {
+    text-align: left;
+    width: 100%;
+    padding: 10px;
+    margin-top: 50px;
+    border:3px solid #e8edf0;
+}
+
+#balance-form th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#balance-form ul li{
+    padding: 0 0 5px;
+    margin: 0 0 0 -20px;
+
+}
+
+#balance-form input[type="radio"]{
+    margin: 0 0 0 -20px;
+}
+
+#balance-form [class*="icon-"] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: text-top;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font: 0/0 serif;
+    text-shadow: none;
+    color: transparent;
+}
+
+#balance-form .icon-oplata{
+    background-position: 0 0;
+    background-image: url("./images/oplata.png");
+}
+#balance-form .nameRadio {
+    vertical-align: top;
+}
+#balance-form .balance-border .subparagraphs {
+    padding: 0 0 0 40px;
+}
+#balance-form .form-control {
+    margin: 5px 0 0 0;
+}
+
+    /*****************************Форма доставки сообщений*******************************/
 #sendMes-form {
     margin: auto;
     padding: 15px;
@@ -165,6 +236,7 @@ body {
 }
 .footer .btn-blue,
 #login-form .btn-blue {
+    margin-top: 20px;
     cursor: pointer;
     font-weight: bold;
     text-decoration:none;
@@ -225,7 +297,7 @@ body {
     margin: 0 0 4px;
     height: 44px;
     color: #ccc;
-    text-shadow: 0 1px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 1px rgba(0, 0, 0, 0);
     background-color: rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(0, 0, 0, 0.9);
     border-bottom-color: #1f2326;
@@ -269,10 +341,9 @@ body {
 }
 #container [class*="icon-"] {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     vertical-align: text-top;
-    background-image: url("./images/icons.png");
     background-repeat: no-repeat;
     background-color: transparent;
     font: 0/0 serif;
@@ -281,7 +352,30 @@ body {
 }
 #container .icon-home {
     background-position: 0 0;
+    background-image: url("./images/icons.png");
 }
+
+#container .icon-exit {
+    background-position: 0 0;
+    background-image: url("./images/exit.png");
+}
+
+#container #nameClient {
+    font-family: 'FontAwesome', sans-serif;
+    font-size: 16px;
+}
+
+#container .nav-right > li:hover{
+    color: #ccc;
+}
+#container #balance:hover{
+    color: #1dabb8;
+}
+
+#container #balance {
+    font-size: 11px;
+}
+
 
 
 /*********************форма авторизации********************/

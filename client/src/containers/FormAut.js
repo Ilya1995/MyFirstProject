@@ -76,7 +76,7 @@ class FormAut extends Component {
                         <footer className='clearfix'>
                             <p>
                                 <span className='info'>?</span>
-                                <a href='#'>Забыли пароль?</a>
+                                <a onClick={() => NotificationManager.info('Напряги мозги', 'Авторизация', 5000)}>Забыли пароль?</a>
                             </p>
                         </footer>
                         <a className='btn-reg btn-blue btn-l btn-indent' value='Регистрация' type='submit' onClick={registration}>Регистрация</a>

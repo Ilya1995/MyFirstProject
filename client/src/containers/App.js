@@ -6,12 +6,14 @@ import NavLink from '../components/NavLink'
 import * as userActions from '../actions/UserActions'
 import * as messageActions from '../actions/MessageActions'
 import ModalNewMess from '../components/ModalNewMess'
+import ModalBalance from '../components/ModalBalance'
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpenModalNewMess: false,
+            isOpenModalBalance: true,
             sendOrReport: ''
         }
     }
@@ -26,7 +28,7 @@ class App extends Component {
     }
 
     render() {
-        const { isAuth, name } = this.props.userInfo;
+        const { isAuth, name, balance } = this.props.userInfo;
 
         const onLogout = () => {
             const { logout } = this.props.userActions;
@@ -45,9 +47,16 @@ class App extends Component {
             sendMessage(data);
             closeModal();
         };
+        const okModalBalance = () => {
+            closeModalBalance();
+        };
 
         const closeModal = () => {
             this.setState({isOpenModalNewMess: false});
+        };
+
+        const closeModalBalance = () => {
+            this.setState({isOpenModalBalance: false});
         };
         
         return (
@@ -57,7 +66,7 @@ class App extends Component {
                         <nav>
                             <ul className='nav'>
                                 <li><NavLink className='nav-icon NavLink' title='Главная'><span className='icon-home'>Главная</span></NavLink></li>
-                                <li><NavLink className='NavLink'>Сообщения</NavLink>
+                                {isAuth ? <li><NavLink className='NavLink'>Сообщения</NavLink>
                                     <div>
                                         <ul>
                                             <li><NavLink className='NavLink'
@@ -75,17 +84,25 @@ class App extends Component {
                                             >Отправленные</NavLink></li>
                                         </ul>
                                     </div>
-                                </li>
-                                <li><NavLink className='NavLink'>Поддержка</NavLink></li>
+                                </li> : ''}
                                 <li><NavLink className='NavLink'>Обучение</NavLink></li>
                                 <li><NavLink className='NavLink'>О нас</NavLink></li>
-                                <li><NavLink className='NavLink'>Блог</NavLink></li>
                                 <li><NavLink className='NavLink'>Контакты</NavLink></li>
                             </ul>
                             {isAuth ?
                                 <ul className='nav nav-right'>
-                                    <li><NavLink className='NavLink'>Привет, {name}</NavLink></li>
-                                    <li onClick={onLogout}><NavLink className='NavLink'>Выход</NavLink></li>
+                                    <li>
+                                        <NavLink className='NavLink' id='NavLink-right'>
+                                            <div id='lk'>
+                                                <strong id='nameClient'>{name}</strong>
+                                                <br/>
+                                                <p onClick={() => this.setState({isOpenModalBalance: true})} id='balance'>Баланс:&nbsp;{balance || 0}&#8381;</p>
+                                            </div>
+                                        </NavLink>
+                                    </li>
+                                    <li onClick={onLogout}>
+                                        <NavLink className='nav-icon NavLink' title='Выход'><span className='icon-exit'>Выход</span></NavLink>
+                                    </li>
                                 </ul> : ''}
                         </nav>
                     </section>
@@ -94,6 +111,9 @@ class App extends Component {
                               sendOrReport={this.state.sendOrReport}
                               okModal={okModal}
                               closeModal={closeModal}/>
+                <ModalBalance isOpenModal={this.state.isOpenModalBalance}
+                              okModal={okModalBalance}
+                              closeModal={closeModalBalance}/>
                 {this.props.children}
             </div>
         )

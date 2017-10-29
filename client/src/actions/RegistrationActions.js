@@ -52,7 +52,7 @@ export const sendEmail = (data) => {
             console.log(json);
             if (json.result) {
                 console.log(json.note);
-                NotificationManager.error('На ваш почтовый ящик отправленно письмо', 'Регистрация', 5000);
+                NotificationManager.info('На ваш почтовый ящик отправленно письмо', 'Регистрация', 5000);
             } else {
                 console.log(json.note);
             }
