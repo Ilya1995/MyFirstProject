@@ -21,6 +21,9 @@ app.use(function (req, res, next) {
 app.post(apiPrefix + '/registration', handler.registration);
 app.post(apiPrefix + '/getUserId', handler.getUserId);
 app.post(apiPrefix + '/getInformationUser', handler.getInformationUser);
+app.put(apiPrefix + '/replenish', handler.replenishBalance);
+app.get(apiPrefix + '/checkBalance/:id', handler.checkBalance);
+app.put(apiPrefix + '/writeOffMoney', handler.writeOffMoney);
 
 http.createServer(app).listen(app.get('port'));
 console.info('Сервер запущен на порту ' + app.get('port'));

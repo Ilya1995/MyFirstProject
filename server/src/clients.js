@@ -3,6 +3,7 @@ require('./console.js');
 // var async = require('async');
 var config = require('../config/mainConfig').config;
 const nodemailer = require('nodemailer');
+var request = require('request');
 
 
 /**
@@ -39,3 +40,43 @@ module.exports.sendEmail = function (params, callback) {
         return callback(null, 'Сообщение доставленно');
     });
 };
+
+/**
+ * Пополнение баланса клиенту
+ * @params params.userId - логин
+ * @params params.sum - пароль
+ * @params callback
+ */
+module.exports.replenishBalance = function (params, callback) {
+    console.log(params);
+    send(params,'replenish', function (err, data) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, data);
+    });
+};
+
+function send (params, funk, callback) {
+    console.log(params);
+    var reqParams = {
+        method: 'PUT',
+        url: config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/' + funk,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    params ? reqParams.body = JSON.stringify(params) : null;
+    request(reqParams, function (err, res, body) {
+        if (err) {
+            return callback(err);
+        }
+        try {
+            body = JSON.parse(body);
+            console.log(body);
+        } catch (e) {
+            return callback('Ошибка при парсинге ответа');
+        }
+        return callback(null, body);
+    });
+}

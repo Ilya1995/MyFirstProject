@@ -19,7 +19,7 @@ const ModalBalance = ({isOpenModal, okModal, closeModal}) => {
             right                      : '0',
             bottom                     : '0',
             width                      : '700px',
-            height                     : '500px',
+            height                     : '520px',
             borderWidth                : '2px',
             borderColor                : 'black',
             borderRadius               : '5px',
@@ -47,7 +47,11 @@ const ModalBalance = ({isOpenModal, okModal, closeModal}) => {
                     <a className='btn-l btn-blue btn-small' onClick={closeModal}>
                         Отмена
                     </a>
-                    <a className='btn-r btn-blue btn-small' onClick={() => okModal()}>
+                    <a className='btn-r btn-blue btn-small' onClick={() => okModal({
+                        sum: document.getElementById('sumBalance') ? document.getElementById('sumBalance').value : null,
+                        map: document.getElementById('mapBalance') ? document.getElementById('mapBalance').value : null,
+                        name: document.getElementById('nameBalance') ? document.getElementById('nameBalance').value : null,
+                        phone: document.getElementById('phoneBalance') ? document.getElementById('phoneBalance').value : null})}>
                         Пополнить
                     </a>
                 </div>

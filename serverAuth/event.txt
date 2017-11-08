@@ -1,0 +1,15 @@
+SET GLOBAL event_scheduler=ON;
+CREATE EVENT `delete_authoriz`
+    ON SCHEDULE
+      EVERY 3 MINUTE
+    DO
+      DELETE FROM `auth`
+        WHERE NOW() > (auth.create_date + interval 3 minute)
+
+
+ALTER EVENT `delete_authoriz`
+    ON SCHEDULE
+      EVERY 3 MINUTE;
+
+
+DROP EVENT delete_authoriz

@@ -4,15 +4,16 @@ var config = require('../config/mainConfig').config;
 var request = require('request');
 var moment = require('moment');
 
-
 /**
  * Получение отчёта по сообщениям
+ * @params params.id - id клиента
  * @params callback
  */
-module.exports.getMessages = function (callback) {
+module.exports.getMessages = function (params, callback) {
     let connection = mysql.createConnection(config.database.connection);
-    let sql = "select DATE_FORMAT(dispatch_time, \"%d-%m-%Y\") as dispatch_time, `to`, status from messeges";
-    connection.query(sql, function (err, rows) {
+    let sql = "select DATE_FORMAT(dispatch_time, \"%d-%m-%Y\") as dispatch_time, `to`, status from messeges " +
+        "where clients_id = ?";
+    connection.query(sql, [params.id],function (err, rows) {
         connection.destroy();
         console.log(rows);
         if (err) {
@@ -25,6 +26,7 @@ module.exports.getMessages = function (callback) {
 
 /**
  * Добавить отчёт о доставке сообщения в БД
+ * @params params.userId - id клиента
  * @params params.textMess - текст сообщения
  * @params params.phoneMess - номер телефона получателя
  * @params params.emailMess - мыло получателя
@@ -39,12 +41,12 @@ module.exports.writeToTheDatabase = function (params, status, callback) {
     let sql, sqlParams;
     if (params.phoneMess) {
         sql = "INSERT INTO messeges (`clients_id`, `type_messages_id`, `subject`, `text`, " +
-            "`to`, `dispatch_time`, `status`) values(null, 2, null, ?, ?, ?, ?)";
-        sqlParams = [params.textMess, params.phoneMess, new moment().format('YYYY-MM-DD hh:mm:ss'), status.result ? 1 : 0];
+            "`to`, `dispatch_time`, `status`) values(?, 2, null, ?, ?, ?, ?)";
+        sqlParams = [params.userId, params.textMess, params.phoneMess, new moment().format('YYYY-MM-DD hh:mm:ss'), status.result ? 1 : 0];
     } else {
         sql = "INSERT INTO messeges (`clients_id`, `type_messages_id`, `subject`, `text`, " +
-            "`to`, `dispatch_time`, `status`) values(null, 1, ?, ?, ?, ?, ?)";
-        sqlParams = [params.subjectMess, params.textMess, params.emailMess,
+            "`to`, `dispatch_time`, `status`) values(?, 1, ?, ?, ?, ?, ?)";
+        sqlParams = [params.userId, params.subjectMess, params.textMess, params.emailMess,
             new moment().format('YYYY-MM-DD hh:mm:ss'), status.result ? 1 : 0];
     }
     connection.query(sql, sqlParams, function (err) {

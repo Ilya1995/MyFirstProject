@@ -23,8 +23,9 @@ app.post(apiPrefix + '/registration', handler.registration);
 app.post(apiPrefix + '/sendEmail', handler.sendEmail);
 app.post(apiPrefix + '/logout', handler.logout);
 app.post(apiPrefix + '/getLoggedUser', handler.getLoggedUser);
-app.get(apiPrefix  + '/getMessages', handler.getMessages);
+app.get(apiPrefix  + '/getMessages/:id', handler.getMessages);
 app.post(apiPrefix + '/sendMessage', handler.sendMessage);
+app.put(apiPrefix + '/replenish', handler.replenishBalance);
 
 http.createServer(app).listen(app.get('port'));
 console.info('Сервер запущен на порту ' + app.get('port'));

@@ -32,7 +32,7 @@ body {
 }
 .scrol-table{
     height:230px;
-    width:400px;
+    width:490px;
     overflow: scroll;
 }
 a {
@@ -165,22 +165,31 @@ a {
     margin: 0 0 0 -20px;
 }
 
+.form-group .footer .btn-blue{
+    margin-top: 50px;
+}
+
 #balance-form [class*="icon-"] {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 150px;
+    height: 35px;
     vertical-align: text-top;
     background-repeat: no-repeat;
     background-color: transparent;
     font: 0/0 serif;
     text-shadow: none;
     color: transparent;
+    background-position: 0 0;
 }
 
-#balance-form .icon-oplata{
-    background-position: 0 0;
-    background-image: url("./images/oplata.png");
+#balance-form .radio span.icon-karty{
+    background-image: url('./images/karty.png');
 }
+
+#balance-form .radio span.icon-phones{
+    background-image: url('./images/phones.png');
+}
+
 #balance-form .nameRadio {
     vertical-align: top;
 }
@@ -191,7 +200,7 @@ a {
     margin: 5px 0 0 0;
 }
 
-    /*****************************Форма доставки сообщений*******************************/
+/*****************************Форма доставки сообщений*******************************/
 #sendMes-form {
     margin: auto;
     padding: 15px;
@@ -229,6 +238,41 @@ a {
     box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
 }
 
+/*****************************Форма отчётов сообщений*******************************/
+#reports-form {
+    margin: auto;
+    padding: 15px;
+    width: 500px;
+    height: 380px;
+}
+#reports-form h3 {
+    text-align: center;
+    border-color: #363b41 white; /* Цвет границы */
+    border-width: 2px; /* Толщина границы */
+    border-radius: 10px;
+    border-style: solid; /* Стиль границы */
+}
+#reports-form .text {
+    padding-left: 8px;
+    width:  300px;
+    height: 70px;
+    border:2px solid #999;
+    font-size:13px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+#reports-form .hr {
+    margin-top: 0;
+    border: 1px solid #999;
+}
+#reports-form h5{
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+#reports-form .textMess{
+    margin-top: 5px;
+}
+
 
 /****************************Голубая кнопка********************************/
 .reg-form {
@@ -236,7 +280,6 @@ a {
 }
 .footer .btn-blue,
 #login-form .btn-blue {
-    margin-top: 20px;
     cursor: pointer;
     font-weight: bold;
     text-decoration:none;

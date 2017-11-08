@@ -7,6 +7,31 @@ var request = require('request');
 require('./console.js');
 
 /**
+ * Проверка, существует ли для данного пользователя токен
+ * @param params.userId - id пользователя
+ * @param callback
+ */
+module.exports.checkToken = function (params, callback) {
+    if (!params.userId) {
+        return callback('Некорректный id');
+    }
+    let connection = mysql.createConnection(config.databaseAuth.connection);
+    let sql = "select id from auth where user_id = ?";
+    connection.query(sql, [params.userId], function (err, row) {
+        connection.destroy();
+        console.log(row);
+        if (err) {
+            console.error(err.message);
+            return callback('Ошибка при получении токена');
+        }
+        if (!row.length) {
+            return callback('Время жизни токена истекло');
+        }
+        return callback(null);
+    });
+};
+
+/**
  * Получение login и password для аутентификации
  * @param params.login - логин
  * @param params.password - пароль
@@ -43,8 +68,10 @@ module.exports.authentication = function (params, callback) {
             });
         },
         function (clientId, callback) {
-            var sql = "INSERT INTO auth (user_id, token) values(?, 'hexToken')";
-            connection.query(sql, [clientId], function (err) {
+            let token = generToken();
+            console.log(token);
+            let sql = "INSERT INTO auth (user_id, token) values(?, ?)";
+            connection.query(sql, [clientId, token], function (err) {
                 if (err) {
                     console.error(err.message);
                     return callback('Ошибка аутинтификации');
@@ -68,6 +95,7 @@ module.exports.authentication = function (params, callback) {
                 }
                 try {
                     body = JSON.parse(body);
+                    body.data.userId = clientId;
                     console.log(body);
                 } catch (e) {
                     return callback('Ошибка при парсинге ответа');
@@ -82,9 +110,17 @@ module.exports.authentication = function (params, callback) {
         }
         return callback(null, data);
     });
-
-
 };
+
+function generToken() {
+    let token = '', random;
+    for (let i = 0; i < 20; i++) {
+        random = Math.floor(Math.random() * (16 - 1) + 1);
+        random = random.toString(16);
+        token += random;
+    }
+    return token;
+}
 
 
 

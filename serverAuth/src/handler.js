@@ -4,6 +4,18 @@ var authentication = require('./authentication');
 require('./console.js');
 var async = require('async');
 
+module.exports.checkToken = function (req, res) {
+    console.log(req.params.id);
+    authentication.checkToken({userId: req.params.id}, function (err, data) {
+        console.log(err);
+        console.log(data);
+        if (err) {
+            return res.send({result: false, note: err});
+        }
+
+        res.send({result: true, note: 'Для данного пользователя есть валидный Токен'});
+    });
+};
 
 module.exports.authentication = function (req, res) {
     console.log(req.body);
