@@ -18,13 +18,17 @@ var config = {
         user: 'test11196@mail.ru',
         pass: '1234567890-qwertyuiop[]'
     },
+    MODULE_EMAIL: {
+        HOST: 'http://localhost',
+        PORT: 3600
+    },
     MODULE_SMS: {
         HOST: 'http://localhost',
         PORT: 3700
     },
-    MODULE_EMAIL: {
+    MODULE_SENDER: {
         HOST: 'http://localhost',
-        PORT: 3600
+        PORT: 3800
     },
     MODULE_AUTH: {
         HOST: 'http://localhost',

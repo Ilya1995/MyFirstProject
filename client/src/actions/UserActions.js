@@ -1,10 +1,35 @@
 import {
     LOGOUT_SUCCESS,
-    READ_CLIENT_SUCCESS
+    READ_CLIENT_SUCCESS,
+    REFRESH_MONEY_SUCCESS
 } from '../constants/User';
 import 'whatwg-fetch'
 import { NotificationManager } from 'react-notifications';
 
+/**
+ * Пополнение баланса
+ */
+export const replenishBalance = (data) => {
+    console.log(data);
+    return (dispatch) => {
+        fetch('/api/replenish', {
+            method: 'put',
+            credentials: 'same-origin',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            dispatch(replenishBalanceSuccess(json.data));
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+};
 
 /**
  * Аутентификация
@@ -92,12 +117,24 @@ export const getLoggedUser = () => {
     }
 };
 
+const replenishBalanceSuccess = (data) => {
+    return {
+        type: REFRESH_MONEY_SUCCESS,
+        data: {
+            balance: data
+        }
+    }
+};
+
 const readClientSuccess = (data) => {
     return {
         type: READ_CLIENT_SUCCESS,
-        name: data.name,
-        balance: data.balance,
-        email: data.email
+        data: {
+            userId: data.userId,
+            name: data.name,
+            balance: data.balance,
+            email: data.email
+        }
     }
 };
 

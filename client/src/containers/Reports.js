@@ -14,8 +14,9 @@ class Reports extends Component {
     }
 
     componentDidMount() {
+        const {  userId } = this.props.userInfo;
         const { getMessages } = this.props.messageActions;
-        getMessages();
+        getMessages({userId: userId});
     }
 
     render() {
@@ -52,9 +53,7 @@ class Reports extends Component {
 
         return (
             <div className='form-group'>
-                <form id='sendMes-form'>
-
-
+                <form id='reports-form'>
                     {this.props.messages ?
                         <div>
                             <h3>Доставленные сообщений</h3>

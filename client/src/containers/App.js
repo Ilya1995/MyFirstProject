@@ -13,7 +13,7 @@ class App extends Component {
         super(props);
         this.state = {
             isOpenModalNewMess: false,
-            isOpenModalBalance: true,
+            isOpenModalBalance: false,
             sendOrReport: ''
         }
     }
@@ -28,7 +28,8 @@ class App extends Component {
     }
 
     render() {
-        const { isAuth, name, balance } = this.props.userInfo;
+        const { isAuth, name, balance, userId } = this.props.userInfo;
+        console.log(name, balance, userId);
 
         const onLogout = () => {
             const { logout } = this.props.userActions;
@@ -36,6 +37,7 @@ class App extends Component {
         };
 
         const okModal = (data) => {
+            var that = this;
             console.log(data);
             if (!data.textMess) {
                 return NotificationManager.info('Не заполнено поле с текстом', 'Доставка сообщения', 5000);
@@ -44,10 +46,31 @@ class App extends Component {
                 return NotificationManager.info('Заполните все поля', 'Доставка сообщения', 5000);
             }
             const { sendMessage } = this.props.messageActions;
-            sendMessage(data);
+            data.userId = userId;
             closeModal();
+            sendMessage(data, function (err) {
+                console.log(err);
+                if (err === 'Недостаточно средств на счету') {
+                    that.setState({isOpenModalBalance: true});
+                }
+            });
         };
-        const okModalBalance = () => {
+        const okModalBalance = (data) => {
+            console.log(data);
+            if (!Number(data.sum)) {
+                return NotificationManager.info('Некорректное поле с суммой', 'Пополнение счёта', 5000);
+            }
+            if (!data.sum) {
+                return NotificationManager.info('Не заполнено поле с суммой', 'Пополнение счёта', 5000);
+            }
+            if (!data.map && !data.phone) {
+                return NotificationManager.info('Не выбран тип оплаты', 'Пополнение счёта', 5000);
+            }
+            if (data.phone && (data.phone.length < 14)) {
+                return NotificationManager.info('Некорректный номер телефона', 'Пополнение счёта', 5000);
+            }
+            const { replenishBalance } = this.props.userActions;
+            replenishBalance({userId: userId, sum: Number(data.sum)});
             closeModalBalance();
         };
 

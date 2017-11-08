@@ -19,6 +19,7 @@ app.use(function (req, res, next) {
 });
 
 app.post(apiPrefix + '/sendMessage', handler.sendMessage);
+app.get(apiPrefix  + '/getMessages/:id', handler.getMessages);
 
 http.createServer(app).listen(app.get('port'));
-console.info('Сервер СМС запущен на порту ' + app.get('port'));
+console.info('Сервер Sender запущен на порту ' + app.get('port'));

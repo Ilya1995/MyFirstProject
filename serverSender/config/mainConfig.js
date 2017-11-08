@@ -11,6 +11,22 @@ var config = {
             multipleStatements: true    //разрешение передачи нескольких запросов в одном, разделенных знаком ";"
         }
     },
+    MODULE_EMAIL: {
+        HOST: 'http://localhost',
+        PORT: 3600
+    },
+    MODULE_SMS: {
+        HOST: 'http://localhost',
+        PORT: 3700
+    },
+    MODULE_AUTH: {
+        HOST: 'http://localhost',
+        PORT: 3900
+    },
+    MODULE_USERS: {
+        HOST: 'http://localhost',
+        PORT: 4000
+    },
     logLevel: 4 //one of log levels error(0)-warning-log-info-debug-trace(5)
 };
 config.env=process.env.NODE_ENV || 'dev';

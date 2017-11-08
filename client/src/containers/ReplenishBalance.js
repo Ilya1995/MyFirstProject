@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import 'react-notifications/lib/notifications.css';
 import * as userActions from '../actions/UserActions';
 import MaskedInput from 'react-text-mask'
-import ReactDOM from 'react-dom';
 
 class ReplenishBalance extends Component {
     constructor(props) {
@@ -13,10 +12,6 @@ class ReplenishBalance extends Component {
             isSelectReplenish: 'map'
         }
     }
-
-    format = () => {
-        console.log(ReactDOM.findDOMNode(this.refs.name).value);
-    };
 
     render() {
         const { name, balance } = this.props.userInfo;
@@ -33,7 +28,7 @@ class ReplenishBalance extends Component {
                                     Сумма пополнения (в рублях)
                                 </th>
                                 <th>
-                                    <input className='form-control'/>
+                                    <input id='sumBalance' className='form-control' />
                                 </th>
                             </tr>
                             <tr>
@@ -45,13 +40,13 @@ class ReplenishBalance extends Component {
                                         <li>
                                             <input onClick={() => this.setState({isSelectReplenish: 'map'})}
                                                    type='radio' defaultChecked name='selectForm'/>
-                                            <label><span>банковская карта</span></label>
+                                            <label><span>банковская карта</span></label><span className='icon-karty'> </span>
                                         </li>
 
                                         <li>
                                             <input onClick={() => this.setState({isSelectReplenish: 'phone'})}
                                                    type='radio' name='selectForm'/>
-                                            <label><span>телефон</span></label>
+                                            <label><span>телефон</span></label><span className='icon-phones'> </span>
                                         </li>
                                     </ul>
                                 </th>
@@ -70,17 +65,17 @@ class ReplenishBalance extends Component {
                                         <td>
                                             <MaskedInput mask={[/[1-9]/, /\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
                                                          className='form-control'
-                                                         name='map' />
+                                                         name='map'
+                                                         id='mapBalance'/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td className='subparagraphs'>Владелец</td>
                                         <td>
-                                            <MaskedInput mask={[/^[A-Z]$/]}
+                                            <MaskedInput mask={[/[A-Z]/, /[A-Z]/, /[A-Z]/, /[A-Z]/, /[A-Z]/]}
                                                    className='form-control'
-                                                   onChange={() => this.format()}
                                                    name='name'
-                                                   ref='name'/>
+                                                   id='nameBalance'/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -95,7 +90,7 @@ class ReplenishBalance extends Component {
                                                      className='form-control'
                                                      name='phone'
                                                      placeholder='(903) 412-4060'
-                                                     ref='phone' />
+                                                     id='phoneBalance' />
                                     </th>
                                 </tr>
                                 </tbody>}
