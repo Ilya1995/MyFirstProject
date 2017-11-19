@@ -5,8 +5,8 @@ require('./console.js');
 var async = require('async');
 
 module.exports.checkToken = function (req, res) {
-    console.log(req.params.id);
-    authentication.checkToken({userId: req.params.id}, function (err, data) {
+    console.log(req.body);
+    authentication.checkToken(req.body, function (err, data) {
         console.log(err);
         console.log(data);
         if (err) {

@@ -7,17 +7,19 @@ var request = require('request');
 require('./console.js');
 
 /**
- * Проверка, существует ли для данного пользователя токен
- * @param params.userId - id пользователя
- * @param callback
+ * Подтверждает подлинность токена
+ * @params params.userId - id пользователя
+ * @params params.token - токен пользоватлея
+ * @params callback
  */
 module.exports.checkToken = function (params, callback) {
+    console.log(params);
     if (!params.userId) {
         return callback('Некорректный id');
     }
     let connection = mysql.createConnection(config.databaseAuth.connection);
-    let sql = "select id from auth where user_id = ?";
-    connection.query(sql, [params.userId], function (err, row) {
+    let sql = "select id from auth where user_id = ? and token = ?";
+    connection.query(sql, [params.userId, params.token], function (err, row) {
         connection.destroy();
         console.log(row);
         if (err) {
@@ -33,9 +35,9 @@ module.exports.checkToken = function (params, callback) {
 
 /**
  * Получение login и password для аутентификации
- * @param params.login - логин
- * @param params.password - пароль
- * @param callback
+ * @params params.login - логин
+ * @params params.password - пароль
+ * @params callback
  */
 module.exports.authentication = function (params, callback) {
     console.log(params);
@@ -76,10 +78,10 @@ module.exports.authentication = function (params, callback) {
                     console.error(err.message);
                     return callback('Ошибка аутинтификации');
                 }
-                return callback(null, clientId);
+                return callback(null, clientId, token);
             });
         },
-        function (clientId, callback) {
+        function (clientId, token, callback) {
             var reqParams = {
                 method: 'POST',
                 url: config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/getInformationUser',
@@ -96,6 +98,7 @@ module.exports.authentication = function (params, callback) {
                 try {
                     body = JSON.parse(body);
                     body.data.userId = clientId;
+                    body.data.token = token;
                     console.log(body);
                 } catch (e) {
                     return callback('Ошибка при парсинге ответа');

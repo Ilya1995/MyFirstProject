@@ -14,7 +14,7 @@ export default function user(state = initialState, action) {
 
         case READ_CLIENT_SUCCESS:
             return { ...state, userId: action.data.userId, name: action.data.name, balance: action.data.balance,
-                email: action.data.email, isAuth: true };
+                email: action.data.email, token: action.data.token, isAuth: true };
 
         case LOGOUT_SUCCESS:
             return { ...state, name: '', isAuth: false};

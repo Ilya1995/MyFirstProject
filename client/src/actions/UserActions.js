@@ -133,7 +133,8 @@ const readClientSuccess = (data) => {
             userId: data.userId,
             name: data.name,
             balance: data.balance,
-            email: data.email
+            email: data.email,
+            token: data.token
         }
     }
 };
