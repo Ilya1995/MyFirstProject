@@ -13,6 +13,7 @@
     "underscore": "^1.8.3",
     "util": "*",
     "db-migrate": "0.10.0-beta.21",
-    "nodemailer": "4.0.1"
+    "nodemailer": "4.0.1",
+    "consul": "0.30.0"
   }
 }

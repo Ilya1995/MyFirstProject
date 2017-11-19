@@ -28,7 +28,7 @@ class App extends Component {
     }
 
     render() {
-        const { isAuth, name, balance, userId } = this.props.userInfo;
+        const { isAuth, name, balance, userId, token } = this.props.userInfo;
         console.log(name, balance, userId);
 
         const onLogout = () => {
@@ -47,6 +47,7 @@ class App extends Component {
             }
             const { sendMessage } = this.props.messageActions;
             data.userId = userId;
+            data.token = token;
             closeModal();
             sendMessage(data, function (err) {
                 console.log(err);

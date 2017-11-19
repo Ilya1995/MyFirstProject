@@ -5,14 +5,16 @@ var async = require('async');
 
 /**
  * Отправка сообщения
+ * @params params.userId - id пользователя
+ * @params params.token - токен авторизации
  * @params callback
  */
 module.exports.checkUser = function (params, callback) {
     async.waterfall([
         function (callback) {
         /**Проверяем наличие токена для данного пользователя*/
-            let url = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT + '/api/checkToken/' + params.userId;
-            send(null, 'GET', url, function (err, data) {
+            let url = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT + '/api/checkToken';
+            send({userId: params.userId, token: params.token}, 'POST', url, function (err, data) {
                 console.log(err, data);
                 if (err) {
                     return callback(err);

@@ -1,6 +1,10 @@
 "use strict";
 var config = {
-    PORT: 3800,
+    name: 'serverSender',
+    listen: {
+        host: '127.0.0.1',
+        port: 3800
+    },
     database: {
         connection: {
             host: '127.0.0.1',          //хост с базами данных
@@ -26,6 +30,17 @@ var config = {
     MODULE_USERS: {
         HOST: 'http://localhost',
         PORT: 4000
+    },
+    serviceRegistry: {
+        host: '127.0.0.1',
+        port: '8500',
+        tags: [],
+        servicesList: [
+            'serverAuth',
+            'serverUsers',
+            'serverEMAIL',
+            'serverSMS'
+        ]
     },
     logLevel: 4 //one of log levels error(0)-warning-log-info-debug-trace(5)
 };

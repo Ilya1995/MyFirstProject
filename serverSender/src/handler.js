@@ -10,7 +10,7 @@ module.exports.sendMessage = function (req, res) {
     console.log(req.body);
     async.waterfall([
         function (callback) {
-            users.checkUser({userId: req.body.userId}, function (err) {
+            users.checkUser({userId: req.body.userId, token: req.body.token}, function (err) {
                 if (err) {
                     return callback(err);
                 }
