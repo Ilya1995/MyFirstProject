@@ -6,6 +6,8 @@ var app = express();
 var config = require('./config/mainConfig').config;
 var messages = require('./src/messages');
 const serviceRegistry = require('../common-utils/serviceRegistry');
+const stateHealthcheck = require('../common-utils/stateHealthcheck');
+const _ = require('underscore');
 const async = require('async');
 var apiPrefix = '/api';
 
@@ -21,8 +23,16 @@ async.waterfall([
             res.set("Access-Control-Allow-Headers", "Content-Type");
             next();
         });
-        http.createServer(app).listen(app.get('port'), function (err) {
+        _({SIGINT: 2, SIGTERM: 15})
+            .each(function(exitCode, exitSignal) {
+                process.on(exitSignal, function() {
+                    gracefulShutdown(exitCode);
+                });
+            });
+
+        const server = http.createServer(app).listen(app.get('port'), function (err) {
             err ? callback(err) : null;
+            app.server = server;
             console.info('Сервер СМС запущен на порту ' + app.get('port'));
             return callback();
         });
@@ -35,7 +45,8 @@ async.waterfall([
                 address: config.listen.host,
                 port: config.listen.port,
                 tags: config.serviceRegistry.tags
-            }
+            },
+            check: config.serviceRegistry.check
         }, function (err) {
             err ? callback(err) : null;
         });
@@ -45,3 +56,23 @@ async.waterfall([
 });
 
 app.post(apiPrefix + '/sendMessage', messages.sendMessage);
+app.get(config.serviceRegistry.check.path, stateHealthcheck({
+    getServer: function() {
+        return app.server;
+    },
+    getConfig: function() {
+        return config.connectionsCountLimits;
+    }
+}));
+
+const gracefulShutdown = function(exitCode) {
+    let timeoutId;
+    let exitCallback = function() {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        process.exit(128 + exitCode);
+    };
+    timeoutId = setTimeout(exitCallback, 3000);
+    serviceRegistry.deregister(exitCallback);
+};

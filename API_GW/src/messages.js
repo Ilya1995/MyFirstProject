@@ -1,6 +1,7 @@
 require('./console.js');
-var config = require('../config/mainConfig').config;
-var request = require('request');
+const config = require('../config/mainConfig').config;
+const request = require('request');
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 
 /**
  * Отправка сообщения
@@ -32,9 +33,22 @@ module.exports.getMessages = function (params, callback) {
 
 function send (params, funk, method, callback) {
     console.log(params);
+
+    console.log(serviceRegistry.servicesInfo);
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_SENDER.name]) {
+        service = serviceRegistry.servicesInfo[config.MODULE_SENDER.name];
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_SENDER.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
+    } else {
+        primaryUrl = config.MODULE_SENDER.HOST + ':' + config.MODULE_SENDER.PORT;
+    }
+
     let reqParams = {
         method: method,
-        url: config.MODULE_SENDER.HOST + ':' + config.MODULE_SENDER.PORT + '/api/' + funk,
+        url: primaryUrl + '/api/' + funk,
         headers: {
             'Content-Type': 'application/json'
         }

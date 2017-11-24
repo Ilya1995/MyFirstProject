@@ -16,6 +16,7 @@ var config = {
         }
     },
     sendEmail: {
+        name: 'serverEMAIL',
         host: 'smtp.mail.ru',
         port: 465,
         secure: true,
@@ -23,14 +24,17 @@ var config = {
         pass: '1234567890-qwertyuiop[]'
     },
     MODULE_SENDER: {
+        name: 'serverSender',
         HOST: 'http://localhost',
         PORT: 3800
     },
     MODULE_AUTH: {
+        name: 'serverAuth',
         HOST: 'http://localhost',
         PORT: 3900
     },
     MODULE_USERS: {
+        name: 'serverUsers',
         HOST: 'http://localhost',
         PORT: 4000
     },
@@ -42,7 +46,15 @@ var config = {
             'serverAuth',
             'serverUsers',
             'serverSender'
-        ]
+        ],
+        check: {
+            path: '/SR/state',
+            interval: '30s'
+        }
+    },
+    connectionsCountLimits: {
+        critical: 1000,
+        warn: 800
     },
     logLevel: 4 //one of log levels error(0)-warning-log-info-debug-trace(5)
 };

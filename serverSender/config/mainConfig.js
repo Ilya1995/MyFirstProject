@@ -16,18 +16,22 @@ var config = {
         }
     },
     MODULE_EMAIL: {
+        name: 'serverEMAIL',
         HOST: 'http://localhost',
         PORT: 3600
     },
     MODULE_SMS: {
+        name: 'serverSMS',
         HOST: 'http://localhost',
         PORT: 3700
     },
     MODULE_AUTH: {
+        name: 'serverAuth',
         HOST: 'http://localhost',
         PORT: 3900
     },
     MODULE_USERS: {
+        name: 'serverUsers',
         HOST: 'http://localhost',
         PORT: 4000
     },
@@ -40,7 +44,15 @@ var config = {
             'serverUsers',
             'serverEMAIL',
             'serverSMS'
-        ]
+        ],
+        check: {
+            path: '/SR/state',
+            interval: '30s'
+        }
+    },
+    connectionsCountLimits: {
+        critical: 1000,
+        warn: 800
     },
     logLevel: 4 //one of log levels error(0)-warning-log-info-debug-trace(5)
 };

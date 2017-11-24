@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const config = require('./config/mainConfig').config;
 const handler = require('./src/handler');
 const serviceRegistry = require('../common-utils/serviceRegistry');
+const stateHealthcheck = require('../common-utils/stateHealthcheck');
+const _ = require('underscore');
 let apiPrefix = '/api';
 let app = express();
 
@@ -21,8 +23,16 @@ async.waterfall([
             res.set("Access-Control-Allow-Headers", "Content-Type");
             next();
         });
-        http.createServer(app).listen(app.get('port'), function (err) {
+        _({SIGINT: 2, SIGTERM: 15})
+            .each(function(exitCode, exitSignal) {
+                process.on(exitSignal, function() {
+                    gracefulShutdown(exitCode);
+                });
+            });
+
+        const server = http.createServer(app).listen(app.get('port'), function (err) {
             err ? callback(err) : null;
+            app.server = server;
             console.info('Сервер Sender запущен на порту ' + app.get('port'));
             return callback();
         });
@@ -36,14 +46,10 @@ async.waterfall([
                 port: config.listen.port,
                 tags: config.serviceRegistry.tags
             },
-            servicesList: config.serviceRegistry.servicesList
+            servicesList: config.serviceRegistry.servicesList,
+            check: config.serviceRegistry.check
         }, function (err) {
             err ? callback(err) : null;
-        });
-    },
-    function (callback) {
-        serviceRegistry.checks(function () {
-            return callback();
         });
     }
 ], function (error) {
@@ -52,3 +58,24 @@ async.waterfall([
 
 app.post(apiPrefix + '/sendMessage', handler.sendMessage);
 app.get(apiPrefix  + '/getMessages/:id', handler.getMessages);
+app.get(config.serviceRegistry.check.path, stateHealthcheck({
+    getServer: function() {
+        return app.server;
+    },
+    getConfig: function() {
+        return config.connectionsCountLimits;
+    }
+}));
+
+const gracefulShutdown = function(exitCode) {
+    let timeoutId;
+    let exitCallback = function() {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        process.exit(128 + exitCode);
+    };
+    timeoutId = setTimeout(exitCallback, 3000);
+    serviceRegistry.deregister(exitCallback);
+};
+

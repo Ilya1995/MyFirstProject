@@ -1,8 +1,9 @@
 require('./console.js');
-var mysql = require('mysql');
-var config = require('../config/mainConfig').config;
-var request = require('request');
-var moment = require('moment');
+const mysql = require('mysql');
+const config = require('../config/mainConfig').config;
+const request = require('request');
+const moment = require('moment');
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 
 /**
  * Получение отчёта по сообщениям
@@ -65,11 +66,25 @@ module.exports.writeToTheDatabase = function (params, status, callback) {
  */
 module.exports.sendMessage = function (params, callback) {
     console.log(params);
-    console.log(config.MODULE_SMS.HOST + ':' + config.MODULE_SMS.PORT + '/api/sendMessage');
+
+    var module;
+    params.phoneMess ? module = config.MODULE_SMS : module = config.MODULE_EMAIL;
+
+    console.log(serviceRegistry.servicesInfo);
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[module.name]) {
+        service = serviceRegistry.servicesInfo[module.name];
+        if (service.status === 'critical') {
+            return callback('Сервис недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
+    } else {
+        primaryUrl = module.HOST + ':' + module.PORT;
+    }
+
     var reqParams = {
         method: 'POST',
-        url: params.phoneMess ? config.MODULE_SMS.HOST + ':' + config.MODULE_SMS.PORT + '/api/sendMessage'
-                              : config.MODULE_EMAIL.HOST + ':' + config.MODULE_EMAIL.PORT + '/api/sendMessage',
+        url: primaryUrl + '/api/sendMessage',
         headers: {
             'Content-Type': 'application/json'
         },

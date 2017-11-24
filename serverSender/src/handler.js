@@ -1,10 +1,11 @@
 "use strict";
 
-var messages = require('./messages');
-var users = require('./users');
+const messages = require('./messages');
+const users = require('./users');
+const async = require('async');
+
+const endOfInterval = 3; // количесво попыток отправки сообщения вслучае ошибки
 require('./console.js');
-var async = require('async');
-var endOfInterval = 3; // количесво попыток отправки сообщения вслучае ошибки
 
 module.exports.sendMessage = function (req, res) {
     console.log(req.body);
@@ -70,7 +71,7 @@ function intervalDispatch(data, callback) {
         messages.sendMessage(data, function (err, data) {
             if (err || !data.result) {
                 console.error(err || data.note);
-                if (err && err.syscall === 'connect') {
+                if (err && (err.syscall === 'connect' || err === 'Сервис недоступен')) {
                     return callback(null, {result: false, note: 'Сервис не доступен'});
                 } else {
                     i++;
@@ -96,3 +97,4 @@ module.exports.getMessages = function (req, res) {
         res.send({result: true, data: data});
     });
 };
+

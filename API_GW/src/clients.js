@@ -4,7 +4,7 @@ require('./console.js');
 var config = require('../config/mainConfig').config;
 const nodemailer = require('nodemailer');
 var request = require('request');
-
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 
 /**
  * Отправка регистрационных данных клиенту
@@ -59,9 +59,21 @@ module.exports.replenishBalance = function (params, callback) {
 
 function send (params, funk, callback) {
     console.log(params);
+
+    console.log(serviceRegistry.servicesInfo);
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+        service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
+    } else {
+        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+    }
     var reqParams = {
         method: 'PUT',
-        url: config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/' + funk,
+        url: primaryUrl + '/api/' + funk,
         headers: {
             'Content-Type': 'application/json'
         }

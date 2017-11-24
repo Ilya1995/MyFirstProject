@@ -30,9 +30,14 @@ export const sendMessage = (data, callback) => {
                 dispatch(refreshMoney(json.data.balance));
                 return callback(null);
             } else {
+                console.log(json.note);
                 console.log('Не удалось отправить сообщение');
-                NotificationManager.error(json.note, 'Доставка сообщения', 5000);
-                return callback(json.note);
+                if (typeof(json.note) === 'string') {
+                    NotificationManager.error(json.note, 'Доставка сообщения', 5000);
+                    return callback(json.note);
+                }
+                NotificationManager.error('Ошибка', 'Доставка сообщения', 5000);
+                return callback(null);
             }
         })
         .catch(err => {
@@ -58,7 +63,7 @@ export const getMessages = (params) => {
                 console.debug(json.data);
                 dispatch(getMessagesSuccess(json.data));
             } else {
-                console.error('Не удалось получить отчёты по сообщениям');
+                NotificationManager.error('Не удалось получить отчёты по сообщениям', 'Отчёты', 5000);
             }
         })
         .catch(err => {

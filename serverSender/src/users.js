@@ -1,7 +1,8 @@
 require('./console.js');
-var config = require('../config/mainConfig').config;
-var request = require('request');
-var async = require('async');
+const config = require('../config/mainConfig').config;
+const request = require('request');
+const async = require('async');
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 
 /**
  * Отправка сообщения
@@ -13,7 +14,18 @@ module.exports.checkUser = function (params, callback) {
     async.waterfall([
         function (callback) {
         /**Проверяем наличие токена для данного пользователя*/
-            let url = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT + '/api/checkToken';
+            console.log(serviceRegistry.servicesInfo);
+            var primaryUrl, service;
+            if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
+                service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
+                if (service.status === 'critical') {
+                    return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
+                }
+                primaryUrl = 'http://' + service.address + ':' + service.port;
+            } else {
+                primaryUrl = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT;
+            }
+            let url = primaryUrl + '/api/checkToken';
             send({userId: params.userId, token: params.token}, 'POST', url, function (err, data) {
                 console.log(err, data);
                 if (err) {
@@ -27,7 +39,18 @@ module.exports.checkUser = function (params, callback) {
         },
         function (callback) {
             /**Проверяем баланс пользователя*/
-            let url = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/checkBalance/' + params.userId;
+            console.log(serviceRegistry.servicesInfo);
+            var primaryUrl, service;
+            if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+                service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+                if (service.status === 'critical') {
+                    return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+                }
+                primaryUrl = 'http://' + service.address + ':' + service.port;
+            } else {
+                primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+            }
+            let url = primaryUrl + '/api/checkBalance/' + params.userId;
             send(null, 'GET', url, function (err, data) {
                 console.log(err, data);
                 if (err) {
@@ -55,7 +78,18 @@ module.exports.checkUser = function (params, callback) {
  * @params callback
  */
 module.exports.writeOffMoney = function (params, callback) {
-    let url = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/writeOffMoney';
+    console.log(serviceRegistry.servicesInfo);
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+        service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
+    } else {
+        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+    }
+    let url = primaryUrl + '/api/writeOffMoney';
     send(params, 'PUT', url, function (err, data) {
         console.log(err, data);
         if (err) {
