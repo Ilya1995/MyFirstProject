@@ -3,6 +3,7 @@ require('./console.js');
 var config = require('../config/mainConfig').config;
 //var async = require('async');
 var request = require('request');
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 
 // /**
 //  * Регистрация нового клиента
@@ -41,9 +42,21 @@ var request = require('request');
 
 module.exports.regClient = function (params, callback) {
     console.log(params);
+
+    console.log(serviceRegistry.servicesInfo);
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+        service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
+    } else {
+        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+    }
     var reqParams = {
         method: 'POST',
-        url: config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/registration',
+        url: primaryUrl + '/api/registration',
         headers: {
             'Content-Type': 'application/json'
         },

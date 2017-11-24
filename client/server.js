@@ -53,6 +53,6 @@ app.get('*', function (req, res) {
 const server = http.createServer(app);
 server.listen(process.env.PORT || config.PORT, () => {
     const address = server.address();
-    console.log('Модуль регистрации запущен на порту: ' + address.port);
+    console.log('Клиент запущен на порту: ' + address.port);
     console.log('Идёт сборка webpack . . .')
 });

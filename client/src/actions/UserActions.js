@@ -23,7 +23,12 @@ export const replenishBalance = (data) => {
         .then(response => response.json())
         .then(json => {
             console.log(json);
-            dispatch(replenishBalanceSuccess(json.data));
+            if (json.result) {
+                dispatch(replenishBalanceSuccess(json.data));
+                NotificationManager.info('Баланс успешно пополнен', 'Пополнение баланса', 5000);
+            } else {
+                NotificationManager.error(json.note, 'Пополнение баланса', 5000);
+            }
         })
         .catch(err => {
             console.log(err);
@@ -54,11 +59,12 @@ export const authentication = (data) => {
                 NotificationManager.info('Авторизация прошла успешно', 'Авторизация', 5000);
                 console.log(json.data);
             } else {
-                NotificationManager.error('Неверный логин или пароль', 'Авторизация', 5000);
+                NotificationManager.error(json.note, 'Авторизация', 5000);
                 console.log(json.note);
             }
         })
         .catch(err => {
+            NotificationManager.error('Ошибка авторицаии', 'Авторизация', 5000);
             console.log(err);
         })
     }

@@ -66,6 +66,9 @@ module.exports.authentication = function (params, callback) {
                 } catch (e) {
                     return callback('Ошибка при парсинге ответа');
                 }
+                if (!body.data) {
+                    return callback('Неверный логин или пароль');
+                }
                 return callback(null, body.data);
             });
         },

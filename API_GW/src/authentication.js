@@ -3,6 +3,7 @@
 var config = require('../config/mainConfig').config;
 require('./console.js');
 var request = require('request');
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 // var mysql = require('mysql');
 // var async = require('async');
 
@@ -84,9 +85,21 @@ module.exports.authentication = function (params, callback) {
 
 function send (params, funk, callback) {
     console.log(params);
+
+    console.log(serviceRegistry.servicesInfo);
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
+        service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
+    } else {
+        primaryUrl = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT;
+    }
     var reqParams = {
         method: 'POST',
-        url: config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT + '/api/' + funk,
+        url: primaryUrl + '/api/' + funk,
         headers: {
             'Content-Type': 'application/json'
         }
