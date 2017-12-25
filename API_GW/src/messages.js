@@ -36,14 +36,20 @@ function send (params, funk, method, callback) {
 
     console.log(serviceRegistry.servicesInfo);
     var primaryUrl, service;
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_SENDER.name]) {
+    //     service = serviceRegistry.servicesInfo[config.MODULE_SENDER.name];
+    //     if (service.status === 'critical') {
+    //         return callback('Сервис ' + config.MODULE_SENDER.name + ' недоступен');
+    //     }
+    //     primaryUrl = 'http://' + service.address + ':' + service.port;
+    // } else {
+    //     primaryUrl = config.MODULE_SENDER.HOST + ':' + config.MODULE_SENDER.PORT;
+    // }
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_SENDER.name]) {
         service = serviceRegistry.servicesInfo[config.MODULE_SENDER.name];
-        if (service.status === 'critical') {
-            return callback('Сервис ' + config.MODULE_SENDER.name + ' недоступен');
-        }
-        primaryUrl = 'http://' + service.address + ':' + service.port;
+        primaryUrl = 'http://' + config.MODULE_SENDER.nameConteiner + ':' + service.port;
     } else {
-        primaryUrl = config.MODULE_SENDER.HOST + ':' + config.MODULE_SENDER.PORT;
+        return callback('Сервис ' + config.MODULE_SENDER.name + ' недоступен');
     }
 
     let reqParams = {

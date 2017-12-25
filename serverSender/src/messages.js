@@ -72,14 +72,21 @@ module.exports.sendMessage = function (params, callback) {
 
     console.log(serviceRegistry.servicesInfo);
     var primaryUrl, service;
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[module.name]) {
+    //     service = serviceRegistry.servicesInfo[module.name];
+    //     if (service.status === 'critical') {
+    //         return callback('Сервис недоступен');
+    //     }
+    //     primaryUrl = 'http://' + service.address + ':' + service.port;
+    // } else {
+    //     primaryUrl = module.HOST + ':' + module.PORT;
+    // }
+
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[module.name]) {
         service = serviceRegistry.servicesInfo[module.name];
-        if (service.status === 'critical') {
-            return callback('Сервис недоступен');
-        }
-        primaryUrl = 'http://' + service.address + ':' + service.port;
+        primaryUrl = 'http://' + module.nameConteiner + ':' + service.port;
     } else {
-        primaryUrl = module.HOST + ':' + module.PORT;
+        return callback('Сервис ' + module.name + ' недоступен');
     }
 
     var reqParams = {

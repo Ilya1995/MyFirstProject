@@ -7,8 +7,8 @@ var config = {
     },
     databaseAuth: {
         connection: {
-            host: '127.0.0.1',          //хост с базами данных
-            user: 'root',               //учетка на сервере БД
+            host: 'dbak',          //хост с базами данных
+            user: 'root1',               //учетка на сервере БД
             database: 'authDB',         //имя БД
             password: '7991',           //пароль к БД
             insecureAuth: true,         //разрешение подключения без SSL
@@ -17,7 +17,7 @@ var config = {
     },
     databaseUsers: {
         connection: {
-            host: '127.0.0.1',          //хост с базами данных
+            host: 'dbuk',          //хост с базами данных
             user: 'root',               //учетка на сервере БД
             database: 'usersDB',        //имя БД
             password: '7991',           //пароль к БД
@@ -26,6 +26,8 @@ var config = {
         }
     },
     MODULE_USERS: {
+        name: 'users',//serverUsers
+        nameConteiner: 'uk',
         HOST: 'http://localhost',
         PORT: 4000
     },
@@ -33,7 +35,7 @@ var config = {
         host: '127.0.0.1',
         port: '8500',
         tags: [],
-        servicesList: [],
+        servicesList: ['users'],
         check: {
             path: '/SR/state',
             interval: '30s'

@@ -61,7 +61,7 @@ module.exports.checkBalance = function (params, callback) {
         console.log(row);
         if (err) {
             console.error(err.message);
-            return callback('Ошибка при получении токена');
+            return callback('Ошибка при получении баланса пользователя');
         }
         return callback(null,row[0].balance);
     });

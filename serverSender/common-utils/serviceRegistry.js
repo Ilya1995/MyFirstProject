@@ -1,9 +1,8 @@
 'use strict';
 
-var Consul = require('consul');
 var async = require('async');
-var url = require('url');
-var _ = require('underscore');
+const request = require('request');
+// const ip = require("ip");
 
 exports.registry = {};
 exports.serviceId = {};
@@ -24,33 +23,11 @@ exports.init = function(params, callback) {
     async.waterfall([
         function(callback) {
             servicesList = params.servicesList;
-            exports.registry = Consul(params.serviceRegistryConfig);
-
-            exports.serviceId = _.random(1000, 9999);
-            params.check ? params.serviceInfo.check = {
-                id: exports.serviceId,
-                name: params.serviceInfo.name,
-                http: url.format({
-                    protocol: 'http:',
-                    hostname: params.serviceInfo.address,
-                    port: params.serviceInfo.port,
-                    pathname: params.check.path
-                }),
-                interval: params.check.interval
-            } : null;
-
-
-            exports.registry.agent.service.register(params.serviceInfo, function (err) {
-                if (err) {
-                    return callback('Ошибка при регистрации в SR');
-                }
-                return callback();
-            });
-        },
-        function(callback) {
+            console.log(servicesList);
             servicesList ? exports.getServicesInfo(function (err) {
                 console.log(exports.servicesInfo);
                 if (err) {
+                    console.log(err);
                     return callback('Ошибка при получении информации о сервисах');
                 }
                 return callback();
@@ -77,34 +54,35 @@ exports.init = function(params, callback) {
 
 exports.getServiceInfo = function(params, callback) {
     var serviceName = params.service;
+    console.log(serviceName);
     async.waterfall([
         function(callback) {
-            exports.registry.catalog.service.nodes(serviceName, function (err, res) {
+            var reqParams = {
+                url: 'http://consul:8500/v1/catalog/service/' + serviceName//' + ip.address() + '
+            };
+            request(reqParams, function (err, res, body) {
                 if (err) {
+                    console.log(err);
                     return callback(err);
                 }
-                return callback(null, res);
-            });
-        }, function (serInfo, callback) {
-            exports.registry.health.checks(serviceName, function (err, serCheck) {
-                //console.log(serCheck);
-                if (err) {
-                    return callback(err);
+                try {
+
+                    body = JSON.parse(body);
+                    console.log(body);
+                } catch (e) {
+                    return callback('Ошибка при парсинге ответа');
                 }
-                return callback(null, serInfo, serCheck);
+                return callback(null, body);
             });
         }
-    ], function(err, serviceInfo, serviceCheck) {
+    ], function(err, serviceInfo) {
         if (err) {
             return callback(err);
         }
-
         console.log(serviceInfo);
-        var status;
-        serviceCheck[0] ? status = serviceCheck[0].Status || 'critical' : status = 'critical';
         return callback(null, !serviceInfo[0] ? [] : {
-            id: serviceInfo[0].ID, address: serviceInfo[0].ServiceAddress,
-            port: serviceInfo[0].ServicePort, status: status});
+            id: serviceInfo[0].ServiceID, address: serviceInfo[0].ServiceAddress,
+            name: serviceInfo[0].ServiceName, port: serviceInfo[0].ServicePort});
     });
 };
 
@@ -126,11 +104,5 @@ exports.getServicesInfo = function(callback) {
 };
 
 exports.deregister = function(callback) {
-    if (exports.registry) {
-        exports.registry.agent.service.deregister({
-            id: exports.serviceId
-        }, callback);
-    } else {
-        callback();
-    }
+    return callback();//заглушка
 };
