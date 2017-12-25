@@ -16,14 +16,21 @@ module.exports.checkUser = function (params, callback) {
         /**Проверяем наличие токена для данного пользователя*/
             console.log(serviceRegistry.servicesInfo);
             var primaryUrl, service;
+            // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
+            //     service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
+            //     if (service.status === 'critical') {
+            //         return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
+            //     }
+            //     primaryUrl = 'http://' + service.address + ':' + service.port;
+            // } else {
+            //     primaryUrl = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT;
+            // }
+
             if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
                 service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
-                if (service.status === 'critical') {
-                    return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
-                }
-                primaryUrl = 'http://' + service.address + ':' + service.port;
+                primaryUrl = 'http://' + config.MODULE_AUTH.nameConteiner + ':' + service.port;
             } else {
-                primaryUrl = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT;
+                return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
             }
             let url = primaryUrl + '/api/checkToken';
             send({userId: params.userId, token: params.token}, 'POST', url, function (err, data) {
@@ -41,14 +48,21 @@ module.exports.checkUser = function (params, callback) {
             /**Проверяем баланс пользователя*/
             console.log(serviceRegistry.servicesInfo);
             var primaryUrl, service;
+            // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+            //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+            //     if (service.status === 'critical') {
+            //         return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+            //     }
+            //     primaryUrl = 'http://' + service.address + ':' + service.port;
+            // } else {
+            //     primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+            // }
+
             if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
                 service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-                if (service.status === 'critical') {
-                    return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
-                }
-                primaryUrl = 'http://' + service.address + ':' + service.port;
+                primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
             } else {
-                primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+                return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
             }
             let url = primaryUrl + '/api/checkBalance/' + params.userId;
             send(null, 'GET', url, function (err, data) {
@@ -80,14 +94,21 @@ module.exports.checkUser = function (params, callback) {
 module.exports.writeOffMoney = function (params, callback) {
     console.log(serviceRegistry.servicesInfo);
     var primaryUrl, service;
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+    //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+    //     if (service.status === 'critical') {
+    //         return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+    //     }
+    //     primaryUrl = 'http://' + service.address + ':' + service.port;
+    // } else {
+    //     primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+    // }
+
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
         service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-        if (service.status === 'critical') {
-            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
-        }
-        primaryUrl = 'http://' + service.address + ':' + service.port;
+        primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
     } else {
-        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
+        return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
     }
     let url = primaryUrl + '/api/writeOffMoney';
     send(params, 'PUT', url, function (err, data) {

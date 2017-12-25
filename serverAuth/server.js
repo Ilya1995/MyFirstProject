@@ -46,6 +46,7 @@ async.waterfall([
                 port: config.listen.port,
                 tags: config.serviceRegistry.tags
             },
+            servicesList: config.serviceRegistry.servicesList,
             check: config.serviceRegistry.check
         }, function (err) {
             err ? callback(err) : null;

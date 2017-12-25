@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var config = require('../config/mainConfig').config;
 var async = require('async');
 var request = require('request');
+const serviceRegistry = require('../../common-utils/serviceRegistry');
 require('./console.js');
 
 /**
@@ -45,11 +46,20 @@ module.exports.authentication = function (params, callback) {
     if ((!params.login || !params.password)) {
         return callback('Не указаны логин или пароль');
     }
+
+    var primaryUrl, service;
+    if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+        service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+        primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+    } else {
+        return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+    }
+
     async.waterfall([
         function (callback) {
             var reqParams = {
                 method: 'POST',
-                url: config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/getUserId',
+                url: primaryUrl + '/api/getUserId',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -87,7 +97,7 @@ module.exports.authentication = function (params, callback) {
         function (clientId, token, callback) {
             var reqParams = {
                 method: 'POST',
-                url: config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT + '/api/getInformationUser',
+                url: primaryUrl + '/api/getInformationUser',
                 headers: {
                     'Content-Type': 'application/json'
                 },

@@ -7,7 +7,7 @@ var config = {
     },
     database: {
         connection: {
-            host: '127.0.0.1',          //хост с базами данных
+            host: 'dbuk',//127.0.0.1          //хост с базами данных
             user: 'root',               //учетка на сервере БД
             database: 'usersDB',        //имя БД
             password: '7991',           //пароль к БД

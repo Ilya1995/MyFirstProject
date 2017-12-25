@@ -7,8 +7,8 @@ var config = {
     },
     database: {
         connection: {
-            host: '127.0.0.1',          //хост с базами данных
-            user: 'root',               //учетка на сервере БД
+            host: 'dbsk',          //хост с базами данных
+            user: 'root3',               //учетка на сервере БД
             database: 'senderDB',     //имя БД
             password: '7991',           //пароль к БД
             insecureAuth: true,         //разрешение подключения без SSL
@@ -16,22 +16,26 @@ var config = {
         }
     },
     MODULE_EMAIL: {
-        name: 'serverEMAIL',
+        name: 'email',//serverEMAIL
+        nameConteiner: 'emailk',
         HOST: 'http://localhost',
         PORT: 3600
     },
     MODULE_SMS: {
-        name: 'serverSMS',
+        name: 'sms',//serverSMS
+        nameConteiner: 'smsk',
         HOST: 'http://localhost',
         PORT: 3700
     },
     MODULE_AUTH: {
-        name: 'serverAuth',
+        name: 'auth',//serverAuth
+        nameConteiner: 'authk',
         HOST: 'http://localhost',
         PORT: 3900
     },
     MODULE_USERS: {
-        name: 'serverUsers',
+        name: 'users',//serverUsers
+        nameConteiner: 'uk',
         HOST: 'http://localhost',
         PORT: 4000
     },
@@ -40,10 +44,10 @@ var config = {
         port: '8500',
         tags: [],
         servicesList: [
-            'serverAuth',
-            'serverUsers',
-            'serverEMAIL',
-            'serverSMS'
+            'auth',
+            'users',
+            'email',
+            'sms'
         ],
         check: {
             path: '/SR/state',

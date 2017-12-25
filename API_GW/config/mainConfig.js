@@ -24,17 +24,20 @@ var config = {
         pass: '1234567890-qwertyuiop[]'
     },
     MODULE_SENDER: {
-        name: 'serverSender',
+        name: 'sender',//serverSender
+        nameConteiner: 'senderk',
         HOST: 'http://localhost',
         PORT: 3800
     },
     MODULE_AUTH: {
-        name: 'serverAuth',
+        name: 'auth',//serverAuth
+        nameConteiner: 'authk',
         HOST: 'http://localhost',
         PORT: 3900
     },
     MODULE_USERS: {
-        name: 'serverUsers',
+        name: 'users',//serverUsers
+        nameConteiner: 'uk',
         HOST: 'http://localhost',
         PORT: 4000
     },
@@ -43,9 +46,9 @@ var config = {
         port: '8500',
         tags: [],
         servicesList: [
-            'serverAuth',
-            'serverUsers',
-            'serverSender'
+            'auth',//serverAuth
+            'users',//serverUsers
+            'sender'//serverSender
         ],
         check: {
             path: '/SR/state',
