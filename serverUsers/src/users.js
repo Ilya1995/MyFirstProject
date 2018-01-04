@@ -1,4 +1,4 @@
-require('./console.js');
+// require('./console.js');
 var mysql = require('mysql');
 var config = require('../config/mainConfig').config;
 var async = require('async');
@@ -11,8 +11,12 @@ var async = require('async');
  */
 module.exports.writeOffMoney = function (params, callback) {
     var that = this;
-    if (!params.userId || !params.money) {
-        return callback('Некорректный id пользователя или сумма списания');
+    if (!params.userId || !isFinite(params.userId) || params.userId < 0) {
+        return callback('Некорректный id пользователя');
+    }
+
+    if (!params.money || !isFinite(params.money) || params.money < 0) {
+        return callback('Некорректная сумма списания');
     }
     var connection = mysql.createConnection(config.database.connection);
     async.waterfall([
@@ -26,8 +30,8 @@ module.exports.writeOffMoney = function (params, callback) {
         },
         function (balance, callback) {
             balance = Number(balance) - Number(params.money);
-            console.log(balance);
-            let sql = "UPDATE clients SET `balance`=? WHERE id=?";
+            //console.log(balance);
+            var sql = "UPDATE clients SET `balance`=? WHERE id=?";
             connection.query(sql, [balance, params.userId], function (err) {
                 if (err) {
                     console.error(err.message);
@@ -51,17 +55,21 @@ module.exports.writeOffMoney = function (params, callback) {
  * @param callback
  */
 module.exports.checkBalance = function (params, callback) {
-    if (!params.userId) {
+    //console.log(params);
+    if (!params.userId || !isFinite(params.userId) || params.userId < 0) {
         return callback('Некорректный id');
     }
     var connection = mysql.createConnection(config.database.connection);
-    let sql = "select balance from clients where id = ?";
+    var sql = "select balance from clients where id = ?";
     connection.query(sql, [params.userId], function (err, row) {
         connection.destroy();
-        console.log(row);
+        //console.log(row);
         if (err) {
             console.error(err.message);
             return callback('Ошибка при получении баланса пользователя');
+        }
+        if (!row[0]) {
+            return callback('Пользователь с таким id не найден');
         }
         return callback(null,row[0].balance);
     });
@@ -74,7 +82,7 @@ module.exports.checkBalance = function (params, callback) {
  * @param callback
  */
 module.exports.getUserId = function (params, callback) {
-    console.log(params);
+    //console.log(params);
     var connection = mysql.createConnection(config.database.connection);
     if ((!params.login || !params.password)) {
         return callback('Не указаны логин или пароль');
@@ -83,7 +91,7 @@ module.exports.getUserId = function (params, callback) {
     var sql = "select clients.id from clients where clients.login = ? and clients.password = ?";
     connection.query(sql, [params.login, params.password], function (err, rows) {
         connection.destroy();
-        console.log(rows);
+        //console.log(rows);
         if (err) {
             console.error(err.message);
             return callback('Ошибка поиска');
@@ -101,16 +109,16 @@ module.exports.getUserId = function (params, callback) {
  * @param callback
  */
 module.exports.getInformationUser = function (params, callback) {
-    console.log(params);
+    //console.log(params);
     var connection = mysql.createConnection(config.database.connection);
-    if (!params.userId) {
+    if (!params.userId || params.userId < 0) {
         return callback('Отсутствует userId');
     }
 
     var sql = "select name, balance, email from clients where id = ?";
     connection.query(sql, [params.userId], function (err, rows) {
         connection.destroy();
-        console.log(rows);
+        //console.log(rows);
         if (err) {
             console.error(err.message);
             return callback('Ошибка поиска');
@@ -129,17 +137,17 @@ module.exports.getInformationUser = function (params, callback) {
  * @param callback
  */
 module.exports.replenishBalance = function (params, callback) {
-    console.log(params);
-    if (!params.userId) {
-        return callback('Отсутствует userId');
+    //console.log(params);
+    if (!params.userId || params.userId < 0 || !isFinite(params.userId)) {
+        return callback('Некоректный userId');
     }
-    if (!params.sum) {
+    if (!params.sum || params.sum < 0 || !isFinite(params.sum)) {
         return callback('Отсутствует сумма пополнения баланса');
     }
-    let connection = mysql.createConnection(config.database.connection);
+    var connection = mysql.createConnection(config.database.connection);
     async.waterfall([
         function (callback) {
-            let sql = "select balance from clients where id = ?";
+            var sql = "select balance from clients where id = ?";
             connection.query(sql, [params.userId], function (err, req) {
                 if (err) {
                     console.error(err.message);
@@ -150,7 +158,7 @@ module.exports.replenishBalance = function (params, callback) {
         },
         function (balance, callback) {
             balance = Number(balance) + Number(params.sum);
-            let sql = "UPDATE clients SET `balance`=? WHERE id=?";
+            var sql = "UPDATE clients SET `balance`=? WHERE id=?";
             connection.query(sql, [balance, params.userId], function (err) {
                 if (err) {
                     console.error(err.message);

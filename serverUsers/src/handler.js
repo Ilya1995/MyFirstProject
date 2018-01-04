@@ -2,13 +2,13 @@
 
 var registration = require('./registration');
 var users = require('./users');
-require('./console.js');
+
 
 module.exports.writeOffMoney = function (req, res) {
-    console.log(req.body.id);
+    //console.log(req.body.id);
     users.writeOffMoney(req.body, function (err, data) {
-        console.log(err);
-        console.log(data);
+        //console.log(err);
+        //console.log(data);
         if (err) {
             return res.send({result: false, note: err});
         }
@@ -18,10 +18,10 @@ module.exports.writeOffMoney = function (req, res) {
 };
 
 module.exports.checkBalance = function (req, res) {
-    console.log(req.params.id);
+    //console.log(req.params.id);
     users.checkBalance({userId: req.params.id}, function (err, data) {
-        console.log(err);
-        console.log(data);
+        //console.log(err);
+        //console.log(data);
         if (err) {
             return res.send({result: false, note: err});
         }
@@ -31,10 +31,23 @@ module.exports.checkBalance = function (req, res) {
 };
 
 module.exports.registration = function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     registration.regClient(req.body, function (err, note) {
-        console.log(err);
-        console.log(note);
+        //console.log(err);
+        //console.log(note);
+        if (err) {
+            res.send({result: false, note: err});
+        } else {
+            res.send({result: true, data: note});
+        }
+    });
+};
+
+module.exports.dropUser = function (req, res) {
+    //console.log({login: req.params.login});
+    registration.dropUser({login: req.params.login}, function (err, note) {
+        //console.log(err);
+        //console.log(note);
         if (err) {
             res.send({result: false, note: err});
         } else {
@@ -44,10 +57,10 @@ module.exports.registration = function (req, res) {
 };
 
 module.exports.getUserId = function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     users.getUserId(req.body, function (err, data) {
-        console.log(err);
-        console.log(data);
+        //console.log(err);
+        //console.log(data);
         if (err) {
             res.send({result: false, note: err});
         } else {
@@ -57,10 +70,10 @@ module.exports.getUserId = function (req, res) {
 };
 
 module.exports.getInformationUser = function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     users.getInformationUser(req.body, function (err, data) {
-        console.log(err);
-        console.log(data);
+        //console.log(err);
+        //console.log(data);
         if (err) {
             res.send({result: false, note: err});
         } else {
@@ -70,9 +83,9 @@ module.exports.getInformationUser = function (req, res) {
 };
 
 module.exports.replenishBalance = function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     users.replenishBalance(req.body, function (err, balance) {
-        console.log(err);
+        //console.log(err);
         if (err) {
             return res.send({result: false, note: err});
         }

@@ -1,9 +1,9 @@
-require('./console.js');
+//require('./console.js');
 //var mysql = require('mysql');
 var config = require('../config/mainConfig').config;
 //var async = require('async');
 var request = require('request');
-const serviceRegistry = require('../../common-utils/serviceRegistry');
+var serviceRegistry = require('../../common-utils/serviceRegistry');
 
 // /**
 //  * Регистрация нового клиента
@@ -41,25 +41,25 @@ const serviceRegistry = require('../../common-utils/serviceRegistry');
 // };
 
 module.exports.regClient = function (params, callback) {
-    console.log(params);
+    //console.log(params);
 
-    console.log(serviceRegistry.servicesInfo);
+    //console.log(serviceRegistry.servicesInfo);
     var primaryUrl, service;
-    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
-    //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-    //     if (service.status === 'critical') {
-    //         return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
-    //     }
-    //     primaryUrl = 'http://' + service.address + ':' + service.port;
-    // } else {
-    //     primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
-    // }
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
         service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-        primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
     } else {
-        return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
     }
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+    //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+    //     primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+    // } else {
+    //     return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+    // }
     var reqParams = {
         method: 'POST',
         url: primaryUrl + '/api/registration',

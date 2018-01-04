@@ -42,8 +42,10 @@ exports.init = function(params, callback) {
 
             exports.registry.agent.service.register(params.serviceInfo, function (err) {
                 if (err) {
+                    console.error('Ошибка при регистрации в SR');
                     return callback('Ошибка при регистрации в SR');
                 }
+                console.log('Регистрация в SR прошла успешно');
                 return callback();
             });
         },

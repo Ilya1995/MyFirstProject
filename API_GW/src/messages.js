@@ -1,4 +1,4 @@
-require('./console.js');
+//require('./console.js');
 const config = require('../config/mainConfig').config;
 const request = require('request');
 const serviceRegistry = require('../../common-utils/serviceRegistry');
@@ -52,7 +52,7 @@ function send (params, funk, method, callback) {
         return callback('Сервис ' + config.MODULE_SENDER.name + ' недоступен');
     }
 
-    let reqParams = {
+    var reqParams = {
         method: method,
         url: primaryUrl + '/api/' + funk,
         headers: {

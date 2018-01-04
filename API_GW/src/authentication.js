@@ -1,7 +1,7 @@
 "use strict";
 
 var config = require('../config/mainConfig').config;
-require('./console.js');
+//require('./console.js');
 var request = require('request');
 const serviceRegistry = require('../../common-utils/serviceRegistry');
 // var mysql = require('mysql');
@@ -88,21 +88,21 @@ function send (params, funk, callback) {
 
     console.log(serviceRegistry.servicesInfo);
     var primaryUrl, service;
-    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
-    //     service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
-    //     if (service.status === 'critical') {
-    //         return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
-    //     }
-    //     primaryUrl = 'http://' + service.address + ':' + service.port;
-    // } else {
-    //     primaryUrl = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT;
-    // }
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
         service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
-        primaryUrl = 'http://' + config.MODULE_AUTH.nameConteiner + ':' + service.port;
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
     } else {
-        return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
+        primaryUrl = config.MODULE_AUTH.HOST + ':' + config.MODULE_AUTH.PORT;
     }
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_AUTH.name]) {
+    //     service = serviceRegistry.servicesInfo[config.MODULE_AUTH.name];
+    //     primaryUrl = 'http://' + config.MODULE_AUTH.nameConteiner + ':' + service.port;
+    // } else {
+    //     return callback('Сервис ' + config.MODULE_AUTH.name + ' недоступен');
+    // }
     var reqParams = {
         method: 'POST',
         url: primaryUrl + '/api/' + funk,
