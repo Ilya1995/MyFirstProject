@@ -11,6 +11,10 @@ const _ = require('underscore');
 const async = require('async');
 const apiPrefix = '/api';
 
+if(process.env.NODE_ENV === 'dev') {
+    require('./src/console.js');
+}
+
 async.waterfall([
     function(callback) {
         app.set('port', process.env.port || config.listen.port);
@@ -58,6 +62,7 @@ async.waterfall([
 
 app.post(apiPrefix + '/authentication', handler.authentication);
 app.post(apiPrefix + '/registration', handler.registration);
+app.get(apiPrefix + '/dropUser/:login', handler.dropUser);
 app.post(apiPrefix + '/sendEmail', handler.sendEmail);
 app.post(apiPrefix + '/logout', handler.logout);
 app.post(apiPrefix + '/getLoggedUser', handler.getLoggedUser);
@@ -74,8 +79,8 @@ app.get(config.serviceRegistry.check.path, stateHealthcheck({
 }));
 
 const gracefulShutdown = function(exitCode) {
-    let timeoutId;
-    let exitCallback = function() {
+    var timeoutId;
+    var exitCallback = function() {
         if (timeoutId) {
             clearTimeout(timeoutId);
         }
@@ -84,3 +89,5 @@ const gracefulShutdown = function(exitCode) {
     timeoutId = setTimeout(exitCallback, 3000);
     serviceRegistry.deregister(exitCallback);
 };
+
+module.exports = app;

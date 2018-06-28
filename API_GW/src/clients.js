@@ -1,8 +1,8 @@
-require('./console.js');
+//require('./console.js');
 // var mysql = require('mysql');
 // var async = require('async');
 var config = require('../config/mainConfig').config;
-const nodemailer = require('nodemailer');
+//const nodemailer = require('nodemailer');
 var request = require('request');
 const serviceRegistry = require('../../common-utils/serviceRegistry');
 
@@ -14,8 +14,8 @@ const serviceRegistry = require('../../common-utils/serviceRegistry');
  * @params callback
  */
 module.exports.sendEmail = function (params, callback) {
-    let configEmail = config.sendEmail;
-    let transporter = nodemailer.createTransport({
+    var configEmail = config.sendEmail;
+    var transporter = nodemailer.createTransport({
         host: configEmail.host,
         port: configEmail.port,
         secure: configEmail.secure,
@@ -24,7 +24,7 @@ module.exports.sendEmail = function (params, callback) {
             pass: configEmail.pass
         }
     });
-    let mailOptions = {
+    var mailOptions = {
         from: configEmail.user,
         to: params.email,
         subject: 'Регистрация',
@@ -42,14 +42,13 @@ module.exports.sendEmail = function (params, callback) {
 };
 
 /**
- * Пополнение баланса клиенту
- * @params params.userId - логин
- * @params params.sum - пароль
+ * Удаление пользователя
+ * @params params.login - логин
  * @params callback
  */
-module.exports.replenishBalance = function (params, callback) {
-    console.log(params);
-    send(params,'replenish', function (err, data) {
+module.exports.dropUser = function (params, callback) {
+    //console.log(params);
+    send(null,'dropUser/' + params.login, 'GET', function (err, data) {
         if (err) {
             return callback(err);
         }
@@ -57,28 +56,44 @@ module.exports.replenishBalance = function (params, callback) {
     });
 };
 
-function send (params, funk, callback) {
-    console.log(params);
+/**
+ * Пополнение баланса клиенту
+ * @params params.userId - логин
+ * @params params.sum - пароль
+ * @params callback
+ */
+module.exports.replenishBalance = function (params, callback) {
+    //console.log(params);
+    send(params,'replenish', 'PUT', function (err, data) {
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, data);
+    });
+};
 
-    console.log(serviceRegistry.servicesInfo);
+function send (params, funk, method, callback) {
+    //console.log(params);
+
+    //console.log(serviceRegistry.servicesInfo);
     var primaryUrl, service;
-    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
-    //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-    //     if (service.status === 'critical') {
-    //         return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
-    //     }
-    //     primaryUrl = 'http://' + service.address + ':' + service.port;
-    // } else {
-    //     primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
-    // }
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
         service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-        primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
     } else {
-        return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
     }
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+    //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+    //     primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+    // } else {
+    //     return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+    // }
     var reqParams = {
-        method: 'PUT',
+        method: method,
         url: primaryUrl + '/api/' + funk,
         headers: {
             'Content-Type': 'application/json'

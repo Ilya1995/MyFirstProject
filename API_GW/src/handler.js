@@ -5,7 +5,7 @@ var authentication = require('./authentication');
 var clients = require('./clients');
 var messages = require('./messages');
 // var async = require('async');
-require('./console.js');
+//require('./console.js');
 
 module.exports.replenishBalance = function (req, res) {
     console.log(req.body);
@@ -82,10 +82,23 @@ module.exports.authentication = function (req, res) {
 };
 
 module.exports.registration = function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     registration.regClient(req.body, function (err, note) {
-        console.log(err);
-        console.log(note);
+        //console.log(err);
+        //console.log(note);
+        if (err) {
+            res.send({result: false, note: err});
+        } else {
+            res.send(note);
+        }
+    });
+};
+
+module.exports.dropUser = function (req, res) {
+    //console.log({login: req.params.login});
+    clients.dropUser({login: req.params.login}, function (err, note) {
+        //console.log(err);
+        //console.log(note);
         if (err) {
             res.send({result: false, note: err});
         } else {

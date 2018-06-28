@@ -24,7 +24,7 @@ export const registration = (data, callback) => {
                 NotificationManager.info('Регистрация прошла успешно', 'Регистрация', 5000);
                 return callback(null, json.result);
             } else {
-                NotificationManager.error('Ошибка регистрации', 'Регистрация', 5000);
+                NotificationManager.error(json.note, 'Регистрация', 5000);
                 return callback(json.result);
             }
         })

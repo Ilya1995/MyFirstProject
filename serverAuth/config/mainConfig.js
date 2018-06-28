@@ -1,14 +1,14 @@
 "use strict";
 var config = {
-    name: 'serverAuth',
+    name: 'auth',
     listen: {
         host: '127.0.0.1',
         port: 3900
     },
     databaseAuth: {
         connection: {
-            host: 'dbak',          //хост с базами данных
-            user: 'root1',               //учетка на сервере БД
+            host: '127.0.0.1',//dbak          //хост с базами данных
+            user: 'root',//root1               //учетка на сервере БД
             database: 'authDB',         //имя БД
             password: '7991',           //пароль к БД
             insecureAuth: true,         //разрешение подключения без SSL

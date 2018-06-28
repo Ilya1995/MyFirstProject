@@ -46,14 +46,24 @@ module.exports.authentication = function (params, callback) {
     if ((!params.login || !params.password)) {
         return callback('Не указаны логин или пароль');
     }
-
     var primaryUrl, service;
+
     if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
         service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
-        primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+        if (service.status === 'critical') {
+            return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        }
+        primaryUrl = 'http://' + service.address + ':' + service.port;
     } else {
-        return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+        primaryUrl = config.MODULE_USERS.HOST + ':' + config.MODULE_USERS.PORT;
     }
+
+    // if (serviceRegistry.servicesInfo && serviceRegistry.servicesInfo[config.MODULE_USERS.name]) {
+    //     service = serviceRegistry.servicesInfo[config.MODULE_USERS.name];
+    //     primaryUrl = 'http://' + config.MODULE_USERS.nameConteiner + ':' + service.port;
+    // } else {
+    //     return callback('Сервис ' + config.MODULE_USERS.name + ' недоступен');
+    // }
 
     async.waterfall([
         function (callback) {

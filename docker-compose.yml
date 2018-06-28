@@ -97,7 +97,7 @@ services:
         - "$HOST_IP:8400:8400"
         - "$HOST_IP:8500:8500"
         - "$DOCKER_BRIDGE_IP:53:53/udp"
-    command: "-server -advertise $HOST_IP -bootstrap -node=master"
+    command: " -server -advertise $HOST_IP -bootstrap -data-dir -node=master "
 
 #    -h ilya-Lenovo-V580c     $HOSTNAME
   registrator:
