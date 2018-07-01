@@ -26,8 +26,8 @@ export const sendMessage = (data, callback) => {
             console.log(json);
             if (json.result) {
                 console.log('Сообщение отправлено');
-                NotificationManager.info(json.data.note, 'Доставка сообщения', 5000);
-                dispatch(refreshMoney(json.data.balance));
+                NotificationManager.info(json.note, 'Доставка сообщения', 5000);
+                dispatch(refreshMoney(json.balance));
                 return callback(null);
             } else {
                 console.log(json.note);

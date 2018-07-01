@@ -44,7 +44,7 @@ class Reports extends Component {
                             <td className='bg-info'>Получатель</td>
                             <td className='bg-info'>Статус</td>
                         </tr>
-                        {info.map((mess, i) => <RowMessages num={i} mess={mess} />)}
+                        {info.map((mess, i) => <RowMessages key={i} num={i} mess={mess} />)}
                         </tbody>
                     </table>
                 </div>

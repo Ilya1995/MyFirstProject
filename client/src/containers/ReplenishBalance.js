@@ -19,7 +19,7 @@ class ReplenishBalance extends Component {
         return (
             <div className='form-group'>
                 <form id='balance-form'>
-                    <h3>{name}, ваш баланс: {balance || 0}&#8381;</h3>
+                    <h3>{name}, ваш баланс: {balance || 0}P</h3>
                     <div className='balance-border'>
                         <table>
                             <tbody>

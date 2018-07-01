@@ -120,7 +120,7 @@ class App extends Component {
                                             <div id='lk'>
                                                 <strong id='nameClient'>{name}</strong>
                                                 <br/>
-                                                <p onClick={() => this.setState({isOpenModalBalance: true})} id='balance'>Баланс:&nbsp;{balance || 0}&#8381;</p>
+                                                <p onClick={() => this.setState({isOpenModalBalance: true})} id='balance'>Баланс:&nbsp;{balance || 0}P</p>
                                             </div>
                                         </NavLink>
                                     </li>
