@@ -7,6 +7,7 @@ import * as userActions from '../actions/UserActions'
 import * as messageActions from '../actions/MessageActions'
 import ModalNewMess from '../components/ModalNewMess'
 import ModalBalance from '../components/ModalBalance'
+import Loading from '../components/Loading'
 
 class App extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class App extends Component {
     }
 
     render() {
-        const { isAuth, name, balance, userId, token } = this.props.userInfo;
+        const { isAuth, name, balance, userId, token, preloader } = this.props.userInfo;
         console.log(name, balance, userId);
 
         const onLogout = () => {
@@ -86,6 +87,15 @@ class App extends Component {
         return (
             <div>
                 <div className='header'>
+
+                    {
+                        preloader	?
+                            <Loading />
+                            :
+                            null
+                    }
+
+
                     <section id='container'>
                         <nav>
                             <ul className='nav'>

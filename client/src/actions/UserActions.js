@@ -1,7 +1,8 @@
 import {
     LOGOUT_SUCCESS,
     READ_CLIENT_SUCCESS,
-    REFRESH_MONEY_SUCCESS
+    REFRESH_MONEY_SUCCESS,
+    GET_CLIENT
 } from '../constants/User';
 import 'whatwg-fetch'
 import { NotificationManager } from 'react-notifications';
@@ -43,6 +44,7 @@ export const authentication = (data) => {
     console.log(data);
     return (dispatch) => {
         console.log(data);
+        dispatch(getClient({preloader: true}));
         fetch('/api/authentication', {
             method: 'post',
             credentials: 'same-origin',
@@ -140,7 +142,17 @@ const readClientSuccess = (data) => {
             name: data.name,
             balance: data.balance,
             email: data.email,
-            token: data.token
+            token: data.token,
+            preloader: false
+        }
+    }
+};
+
+const getClient = (data) => {
+    return {
+        type: GET_CLIENT,
+        data: {
+            preloader: data.preloader
         }
     }
 };
